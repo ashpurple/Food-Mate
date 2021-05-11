@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1014637756384",
+    "project_id": "food-mate-2b583",
+    "storage_bucket": "food-mate-2b583.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014637756384:android:89f0a4c2284ce243e0f585",
+        "android_client_info": {
+          "package_name": "com.example.foodmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014637756384-fasfao0ser8gtpj640niqfg40m8bhrot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodmate",
+            "certificate_hash": "04337cb7df1c0899d5884d78c6bfd457429b3db2"
+          }
+        },
+        {
+          "client_id": "1014637756384-pat6tthskndtq9cevt32fqhftcqb15ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6qrApr4AGxJuWyC_VL0er6wZ-9IUyQJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014637756384-pat6tthskndtq9cevt32fqhftcqb15ku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
