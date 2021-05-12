@@ -54,38 +54,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     };
 
-    private void verification(){
-        String email=((EditText)findViewById(R.id.edit_email)).getText().toString();
-        String key = email.split("@")[0];   //key에 @는 저장이 안되므로 앞에 ID만 분리 (k=id)
-        String domain = email.split("@")[1];
-
-        if(email.length()>0) {
-
-            if (domain.equals("gachon.ac.kr")) {// 학교 주소 확인
-                /* 이메일 인증 */
-                mAuth.getCurrentUser().sendEmailVerification()
-                        .addOnCompleteListener(this, (task2) -> {
-
-                            if(task2.isSuccessful()){
-                                startToast("인증 메일을 전송했습니다.\n이메일을 확인해주세요");
-
-                            } else {
-                                if (task2.getException() != null) {
-                                    startToast(task2.getException().toString());
-                                }
-                            }
-                        });
-
-            }
-            else{
-                Toast.makeText(this, "가천대학교 계정이 아닙니다", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else{
-            startToast("이메일을 입력해주세요");
-        }
-
-    }
 
     private void signUp(){
         String email=((EditText)findViewById(R.id.edit_email)).getText().toString();
@@ -109,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         .addOnCompleteListener(this, (task2) -> {
 
                                             if(task2.isSuccessful()){
-                                                startToast("인증 메일을 전송되었습니다.");
+                                                startToast("인증 메일이 전송되었습니다.");
 
                                             } else {
                                                 if (task2.getException() != null) {
