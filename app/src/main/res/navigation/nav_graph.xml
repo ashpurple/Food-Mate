@@ -7,22 +7,30 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.foodmate.FirstFragment"
+        android:name="com.example.foodmate.ui.recruiting.RecruitingFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_recruiting">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.foodmate.SecondFragment"
+        android:name="com.example.foodmate.ui.recruited.RecruitedFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_recruited">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ThirdFragment"
+        android:name="com.example.foodmate.ui.settings.SettingsFragment"
+        android:label="Third Fragment"
+        tools:layout="@layout/fragment_settings">
     </fragment>
 </navigation>

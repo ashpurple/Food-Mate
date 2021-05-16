@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_recruiting"
+        android:icon="@drawable/ballon"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_recruited"
+        android:icon="@drawable/ballon"
+        android:title="@string/title_recruited" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ballon"
+        android:iconTint="@color/black"
+        android:title="@string/title_settings" />
+
+</menu>

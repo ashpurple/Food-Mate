@@ -2,6 +2,10 @@ package com.example.foodmate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Build;
@@ -12,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         // 사용 버튼
         findViewById(R.id.btn_logout).setOnClickListener(onClickListener);
         findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
+
+
     }
 
 
@@ -49,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+
+
 
 
     private void startMyActivity(Class c){
