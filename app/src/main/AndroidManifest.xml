@@ -11,6 +11,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".PasswordResetActivity"></activity>
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".WritingActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"

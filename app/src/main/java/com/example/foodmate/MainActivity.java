@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // 사용 버튼
         findViewById(R.id.btn_logout).setOnClickListener(onClickListener);
+        findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
     }
 
 
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     startToast("로그아웃되었습니다");
                     startMyActivity(LoginActivity.class);
+                    break;
+                case R.id.btn_addNew:
+                    startMyActivity(WritingActivity.class);
                     break;
             }
         }
