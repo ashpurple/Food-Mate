@@ -39,32 +39,6 @@ public class WritingActivity extends AppCompatActivity {
     ImageButton btn_cancel;
     EditText maximum;
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//    }
-//    @Override
-//    public void onBackPressed(){
-//        super.onBackPressed();
-//        moveTaskToBack(true);
-//
-//    }
-//    View.OnClickListener onClickListener= (v)->{
-//
-//        switch(v.getId()){
-//            case R.id.btn_upload:
-//                postUpdate();
-//                break;
-//            case R.id.btn_cancle:
-//                finish();
-//                break;
-//
-//        }
-//
-//    };
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +63,6 @@ public class WritingActivity extends AppCompatActivity {
             }
         });
 
-
         maximum = findViewById(R.id.maximum);
         numOfRecruit = 0;
 
@@ -106,11 +79,9 @@ public class WritingActivity extends AppCompatActivity {
 
         if(numOfRecruit == 0 ){
             startToast("모집 인원 수를 확인해주세요.");
-            System.out.println("여기여기여기여기 !!!!!!!!!!!! numOfRecruitment: "+numOfRecruit);
         }
         if(title.length() > 0 && contents.length() > 0){
             user = FirebaseAuth.getInstance().getCurrentUser();
-            //모집인원 수
 
             WriteInfo writeInfo = new WriteInfo(title, contents, user.getUid(), numOfRecruit,  new Date());
             postUploader(writeInfo);
