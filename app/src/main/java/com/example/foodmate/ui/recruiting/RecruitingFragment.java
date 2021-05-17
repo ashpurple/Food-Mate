@@ -1,9 +1,11 @@
 package com.example.foodmate.ui.recruiting;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,8 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
+import com.example.foodmate.WritingActivity;
 import com.example.foodmate.ui.recruiting.RecruitingViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RecruitingFragment extends Fragment {
 
@@ -31,6 +36,28 @@ public class RecruitingFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        root.findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
+
         return root;
+
+
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()){
+                case R.id.btn_addNew:
+                    startMyActivity(WritingActivity.class);
+                    break;
+            }
+        }
+    };
+
+    private void startMyActivity(Class c){
+        Intent intent = new Intent(getActivity(),c);
+        startActivity(intent);
     }
 }

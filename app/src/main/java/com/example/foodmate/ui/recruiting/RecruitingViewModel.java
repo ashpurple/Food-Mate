@@ -10,7 +10,7 @@ public class RecruitingViewModel extends ViewModel {
 
     public RecruitingViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is mypage fragment");
+        mText.setValue("Food Mate");
     }
 
     public LiveData<String> getText() {
