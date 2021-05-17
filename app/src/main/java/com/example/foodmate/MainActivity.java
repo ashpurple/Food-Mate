@@ -7,6 +7,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 public class MainActivity extends AppCompatActivity {
+    public static Activity Main_Activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +47,27 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_settings)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
 
 
-    View.OnClickListener onClickListener=new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-
-            switch (v.getId()){
-                case R.id.btn_logout:
-                    FirebaseAuth.getInstance().signOut();
-                    startToast("로그아웃되었습니다");
-                    startMyActivity(LoginActivity.class);
-                    break;
-                case R.id.btn_addNew:
-                    startMyActivity(WritingActivity.class);
-                    break;
-            }
-        }
-    };
+//    View.OnClickListener onClickListener=new View.OnClickListener(){
+//        @Override
+//        public void onClick(View v) {
+//
+//            switch (v.getId()){
+//                case R.id.btn_logout:
+//                    FirebaseAuth.getInstance().signOut();
+//                    startToast("로그아웃되었습니다");
+//                    startMyActivity(LoginActivity.class);
+//                    break;
+//                case R.id.btn_addNew:
+//                    startMyActivity(WritingActivity.class);
+//                    break;
+//            }
+//        }
+//    };
 
 
 
