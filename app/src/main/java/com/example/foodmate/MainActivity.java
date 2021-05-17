@@ -52,27 +52,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    View.OnClickListener onClickListener=new View.OnClickListener(){
-//        @Override
-//        public void onClick(View v) {
-//
-//            switch (v.getId()){
-//                case R.id.btn_logout:
-//                    FirebaseAuth.getInstance().signOut();
-//                    startToast("로그아웃되었습니다");
-//                    startMyActivity(LoginActivity.class);
-//                    break;
-//                case R.id.btn_addNew:
-//                    startMyActivity(WritingActivity.class);
-//                    break;
-//            }
-//        }
-//    };
-
-
-
-
-
     private void startMyActivity(Class c){
         Intent intent = new Intent(this,c);
         startActivity(intent);

@@ -22,4 +22,6 @@
     <style name="Theme.FoodMate.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FoodMate.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <color name="windowBackground">@color/white</color>
 </resources>

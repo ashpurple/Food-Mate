@@ -15,4 +15,9 @@
     <string name="title_home">home</string>
     <string name="title_recruited">모집완료</string>
     <string name="title_settings">설정</string>
+
+    <string-array name="lst_settings">
+        <item>Log Out</item>
+        <item>Change Nickname</item>
+    </string-array>
 </resources>
