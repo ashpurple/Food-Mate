@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp">
 
@@ -13,9 +14,13 @@
             android:id="@+id/text_recruiting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="recruited"
+            android:layout_centerInParent="true"
+            android:text="Food Mate"
+            android:textStyle="bold"
+            android:textSize="70dp"
             android:textColor="@color/black"/>
-    </LinearLayout>
+
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/foodLine"
         android:layout_width="match_parent"
@@ -38,7 +43,19 @@
                 android:padding="0dp"
                 android:layout_toLeftOf="@id/imgBtn_food2"
                 android:scaleType="fitCenter"
+
                 android:src="@drawable/food1_korean" />
+
+            <TextView
+                android:id="@+id/txt_food1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgBtn_food1"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="7dp"
+                android:text="Korean"
+                android:textColor="@color/black" />
 
             <ImageButton
                 android:id="@+id/imgBtn_food2"
@@ -52,6 +69,15 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/food2_schoolfood" />
 
+            <TextView
+                android:id="@+id/txt_food2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/imgBtn_food2"
+                android:text="School Food"
+                android:textColor="@color/black" />
+
             <ImageButton
                 android:id="@+id/imgBtn_food3"
                 android:layout_width="64dp"
@@ -64,6 +90,16 @@
                 android:layout_toRightOf="@id/imgBtn_food2"
                 android:scaleType="fitCenter"
                 android:src="@drawable/food3_chicken"/>
+
+            <TextView
+                android:id="@+id/txt_food3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chicken"
+                android:layout_toRightOf="@id/txt_food2"
+                android:layout_alignBaseline="@id/txt_food2"
+                android:layout_marginLeft="40dp"
+                android:textColor="@color/black" />
 
         </RelativeLayout>
 
@@ -84,23 +120,67 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/food4_fastfood" />
 
+            <TextView
+                android:id="@+id/txt_food4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fast Food"
+                android:layout_toLeftOf="@id/blank"
+                android:layout_below="@id/imgBtn_food5"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/black" />
+
             <ImageView
                 android:id="@+id/blank"
                 android:layout_width="20dp"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:layout_centerInParent="true"/>
+
             <ImageButton
                 android:id="@+id/imgBtn_food5"
-                android:layout_width="64dp"
+                android:layout_width="94dp"
                 android:layout_height="80dp"
-                android:layout_margin="7dp"
+                android:layout_alignBottom="@id/imgBtn_food4"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toRightOf="@id/blank"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:padding="0dp"
-                android:layout_toRightOf="@id/blank"
                 android:scaleType="fitCenter"
-                android:src="@drawable/food5_pasta" />
+                android:src="@drawable/food5_chinesefood" />
+
+            <TextView
+                android:id="@+id/txt_food5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chinese"
+                android:layout_toRightOf="@id/blank"
+                android:layout_below="@id/imgBtn_food5"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/black" />
+
 
         </RelativeLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btn_addNew"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/add" />
+    </RelativeLayout>
+
 </LinearLayout>
