@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_recruiting"
+        android:id="@+id/nav_recruiting"
         android:icon="@drawable/ballon"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_recruited"
+        android:id="@+id/nav_recruited"
         android:icon="@drawable/ballon"
         android:title="@string/title_recruited" />
 
     <item
-        android:id="@+id/navigation_settings"
+        android:id="@+id/nav_settings"
         android:icon="@drawable/ballon"
         android:iconTint="@color/black"
         android:title="@string/title_settings" />

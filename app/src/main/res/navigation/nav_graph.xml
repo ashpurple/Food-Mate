@@ -3,34 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/nav_recruiting">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/nav_recruiting"
         android:name="com.example.foodmate.ui.recruiting.RecruitingFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_recruiting">
 
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/nav_recruited"
         android:name="com.example.foodmate.ui.recruited.RecruitedFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_recruited">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/ThirdFragment"
+        android:id="@+id/nav_settings"
         android:name="com.example.foodmate.ui.settings.SettingsFragment"
-        android:label="Third Fragment"
+        android:label="@string/third_fragment_label"
         tools:layout="@layout/fragment_settings">
     </fragment>
 </navigation>

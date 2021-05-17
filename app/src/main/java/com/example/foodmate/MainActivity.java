@@ -32,11 +32,21 @@ public class MainActivity extends AppCompatActivity {
         if(FirebaseAuth.getInstance().getCurrentUser()==null){
             startMyActivity(LoginActivity.class);
         }
-        // 사용 버튼
-        findViewById(R.id.btn_logout).setOnClickListener(onClickListener);
-        findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
+//        // 사용 버튼
+//        findViewById(R.id.btn_logout).setOnClickListener(onClickListener);
+//        findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
 
-
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_recruiting,
+                R.id.nav_recruited,
+                R.id.nav_settings)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
     }
 
 
