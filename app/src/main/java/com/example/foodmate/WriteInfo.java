@@ -1,21 +1,25 @@
 package com.example.foodmate;
 
-//import com.google.type.Date;
+
+import com.google.firebase.Timestamp;
 import java.util.Date;
+
 
 public class WriteInfo {
     private String title;
     private String contents;
     private String publisher;
+    private String selectedCategory;
     private Integer numOfRecruits;
-    private Date createdAt;
+    private Timestamp createdAt;
 
 
 
-    public WriteInfo(String title, String contents, String publisher, Integer numOfRecuits, Date createdAt){
+    public WriteInfo(String title, String contents, String publisher, String selectedCategory, Integer numOfRecuits, Timestamp createdAt){
         this.title = title;
         this.contents = contents;
         this.publisher = publisher;
+        this.selectedCategory = selectedCategory;
         this.numOfRecruits = numOfRecuits;
         this.createdAt = createdAt;
 
@@ -31,8 +35,10 @@ public class WriteInfo {
     public String getPublisher(){ return this.publisher;}
     public void setPublisher(String publisher){ this.publisher = publisher;}
     public Integer getNumOfRecruits() { return numOfRecruits; }
+    public void setSelectedCategory(String selectedCategory){ this.contents = selectedCategory;}
+    public String getSelectedCategory(){ return this.selectedCategory;}
     public void setNumOfRecruits(Integer numOfRecruits) { this.numOfRecruits = numOfRecruits; }
-    public Date getCreatedAt(){ return this.createdAt;}
-    public void setCreatedAt(Date createdAt){ this.createdAt = createdAt;}
+    public Timestamp getCreatedAt(){ return this.createdAt;}
+    public void setCreatedAt(Timestamp createdAt){ this.createdAt = createdAt;}
 
 }

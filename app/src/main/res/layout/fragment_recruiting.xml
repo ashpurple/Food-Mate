@@ -179,12 +179,13 @@
             android:id="@+id/btn_addNew"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="150dp"
-            android:layout_marginRight="30dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:scaleType="fitCenter"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="33dp"
             android:adjustViewBounds="true"
             android:backgroundTint="@android:color/transparent"
+            android:scaleType="fitCenter"
             android:src="@drawable/add" />
 
     </RelativeLayout>
