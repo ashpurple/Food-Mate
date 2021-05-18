@@ -40,6 +40,7 @@ public class PostActivity extends AppCompatActivity {
         TextView title = (TextView)findViewById(R.id.title);
 
         TextView nickname = (TextView)findViewById(R.id.nickname);
+        TextView category = (TextView)findViewById(R.id.category);
         TextView created_at = (TextView)findViewById(R.id.created_At);
         ImageButton user_menu = (ImageButton)findViewById(R.id.user_menu);
         TextView contents = (TextView)findViewById(R.id.contents);
@@ -58,6 +59,7 @@ public class PostActivity extends AppCompatActivity {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         String txt_title = document.getData().get("title").toString();
+                        String txt_category = document.getData().get("selectedCategory").toString();
 //                        String txt_nickname = document.getData().get("nickname").toString();
                         String txt_nickname = "익명"; //임시 닉네임
                         String txt_contents = document.getData().get("contents").toString();
@@ -71,6 +73,7 @@ public class PostActivity extends AppCompatActivity {
                         int int_num_comment = 0; //샘플 댓글 수
                         title.setText(txt_title);
                         nickname.setText(txt_nickname);
+                        category.setText(txt_category);
                         created_at.setText(txt_createdAt);
                         contents.setText(txt_contents);
                         num_comment.setText(String.valueOf(int_num_comment));
