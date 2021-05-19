@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.foodmate.ListActivity;
 import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
 import com.example.foodmate.WritingActivity;
@@ -38,6 +39,11 @@ public class RecruitingFragment extends Fragment {
         });
 
         root.findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_korean).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_schoolfood).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_chicken).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_fastfood).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_chinese).setOnClickListener(onClickListener);
 
         return root;
 
@@ -51,6 +57,10 @@ public class RecruitingFragment extends Fragment {
             switch (v.getId()){
                 case R.id.btn_addNew:
                     startMyActivity(WritingActivity.class);
+                    break;
+                case R.id.btn_korean:
+                    startMyActivity(ListActivity.class);
+                    System.out.println("btn_korean 눌림");
                     break;
             }
         }

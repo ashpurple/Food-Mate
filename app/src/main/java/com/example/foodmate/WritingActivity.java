@@ -21,14 +21,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class WritingActivity extends AppCompatActivity {
     public static final Integer UPLOAD_POST = 110;
     private FirebaseUser user;
     private String posts_id;
+    private String nickname;
     Integer numOfRecruit;
     Button btn_upload;
     ImageButton btn_cancel;
@@ -108,12 +113,7 @@ public class WritingActivity extends AppCompatActivity {
         String title = ((EditText)findViewById(R.id.et_title)).getText().toString();
         String contents = ((EditText)findViewById(R.id.et_contents)).getText().toString();
 
-
-
-
         Timestamp created_at = new Timestamp(new Date());
-
-//        Date created_at = new Date();
         numOfRecruit = Integer.parseInt(""+maximum.getText());
 
 
@@ -122,8 +122,18 @@ public class WritingActivity extends AppCompatActivity {
         }
         if(title.length() > 0 && contents.length() > 0){
             user = FirebaseAuth.getInstance().getCurrentUser();
+//            nickname 얻어오기
+//            User usernick = new User();
+//            nickname = usernick.getNick();
+//            System.out.println("User에서 얻어온 유저 닉네임: "+nickname); //지금은 null임
+            nickname = "익명";
 
-            WriteInfo writeInfo = new WriteInfo(title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at);
+//            Timestamp timestamp_createdAt = writeInfoList.get(position).getCreatedAt(); //파이어베이스 타임스탬프 받아오기
+//            Date date_createdAt = timestamp_createdAt.toDate();//Date형식으로 변경
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
+//            String createdAt = formatter.format(date_createdAt).toString();
+//
+            WriteInfo writeInfo = new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at);
             postUploader(writeInfo);
 
 
@@ -136,6 +146,27 @@ public class WritingActivity extends AppCompatActivity {
     //파이어베이스 posts에 업로드
     private void postUploader(WriteInfo writeInfo){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        String user_id = user.getUid();//사용자 uid
+        db.collection("Users")
+                .whereEqualTo("uid", user_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                nickname = document.getData().get("nickname").toString();
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
+                    }
+                });
+
 
         db.collection("Posts").add(writeInfo)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

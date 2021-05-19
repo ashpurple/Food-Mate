@@ -33,12 +33,12 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/imgBtn_food1"
+                android:id="@+id/btn_korean"
                 android:layout_width="64dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginRight="34dp"
-                android:layout_toLeftOf="@id/imgBtn_food2"
+                android:layout_toLeftOf="@id/btn_schoolfood"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:padding="0dp"
@@ -50,7 +50,7 @@
                 android:id="@+id/txt_food1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imgBtn_food1"
+                android:layout_below="@id/btn_korean"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="7dp"
@@ -59,7 +59,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imgBtn_food2"
+                android:id="@+id/btn_schoolfood"
                 android:layout_width="64dp"
                 android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
@@ -74,19 +74,19 @@
                 android:id="@+id/txt_food2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imgBtn_food2"
+                android:layout_below="@id/btn_schoolfood"
                 android:layout_centerHorizontal="true"
                 android:text="School Food"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imgBtn_food3"
+                android:id="@+id/btn_chicken"
                 android:layout_width="64dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="34dp"
                 android:layout_marginTop="7dp"
-                android:layout_toRightOf="@id/imgBtn_food2"
+                android:layout_toRightOf="@id/btn_schoolfood"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:padding="0dp"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/imgBtn_food4"
+                android:id="@+id/btn_fastfood"
                 android:layout_width="64dp"
                 android:layout_height="80dp"
                 android:layout_margin="7dp"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:text="Fast Food"
                 android:layout_toLeftOf="@id/blank"
-                android:layout_below="@id/imgBtn_food5"
+                android:layout_below="@id/btn_chinese"
                 android:layout_marginRight="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
@@ -141,10 +141,10 @@
                 android:layout_centerInParent="true"/>
 
             <ImageButton
-                android:id="@+id/imgBtn_food5"
+                android:id="@+id/btn_chinese"
                 android:layout_width="94dp"
                 android:layout_height="80dp"
-                android:layout_alignBottom="@id/imgBtn_food4"
+                android:layout_alignBottom="@id/btn_fastfood"
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="7dp"
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:text="Chinese"
                 android:layout_toRightOf="@id/blank"
-                android:layout_below="@id/imgBtn_food5"
+                android:layout_below="@id/btn_chinese"
                 android:layout_marginLeft="20dp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
