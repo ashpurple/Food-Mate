@@ -60,8 +60,7 @@ public class PostActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         String txt_title = document.getData().get("title").toString();
                         String txt_category = document.getData().get("selectedCategory").toString();
-//                        String txt_nickname = document.getData().get("nickname").toString();
-                        String txt_nickname = "익명"; //임시 닉네임
+                        String txt_nickname = document.getData().get("nickname").toString();
                         String txt_contents = document.getData().get("contents").toString();
 
                         Timestamp timestamp_createdAt = (Timestamp) document.getData().get("createdAt"); //파이어베이스 타임스탬프 받아오기

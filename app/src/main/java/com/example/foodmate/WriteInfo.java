@@ -6,6 +6,7 @@ import java.util.Date;
 
 
 public class WriteInfo {
+    private String nickname;
     private String title;
     private String contents;
     private String publisher;
@@ -15,7 +16,8 @@ public class WriteInfo {
 
 
 
-    public WriteInfo(String title, String contents, String publisher, String selectedCategory, Integer numOfRecuits, Timestamp createdAt){
+    public WriteInfo(String nickname, String title, String contents, String publisher, String selectedCategory, Integer numOfRecuits, Timestamp createdAt){
+        this.nickname = nickname;
         this.title = title;
         this.contents = contents;
         this.publisher = publisher;
@@ -27,7 +29,8 @@ public class WriteInfo {
     }
 
 
-
+    public String getNickname(){ return this.nickname;}
+    public void setNickname(String nickname){ this.nickname = nickname;}
     public String getTitle(){ return this.title;}
     public void setTitle(String title){ this.title = title;}
     public String getContents(){ return this.contents;}
