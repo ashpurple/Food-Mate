@@ -1,6 +1,7 @@
 package com.example.foodmate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     ListActivity listActivity;
     List<WriteInfo> writeInfoList;
+
 
 
     public CustomAdapter(ListActivity listActivity, List<WriteInfo> writeInfoList) {
@@ -38,16 +40,33 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+
                 //this will be called when user click item
 
-                //show data in toast on clicking
-                String title = writeInfoList.get(position).getTitle();
-                String descr = writeInfoList.get(position).getContents();
-                Timestamp createdAt = writeInfoList.get(position).getCreatedAt();
-                String nickname = writeInfoList.get(position).getNickname();
+//                //show data in toast on clicking
+//                String title = writeInfoList.get(position).getTitle();
+//                String descr = writeInfoList.get(position).getContents();
+//                Timestamp createdAt = writeInfoList.get(position).getCreatedAt();
+//                String nickname = writeInfoList.get(position).getNickname();
+
+//                WriteInfo writeInfo =
+//                        new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at);
 
 
-                startToast(title+"\n"+descr);
+                Intent intent = new Intent(view.getContext(),ListDetailActivity.class);
+                intent.putExtra("nickname",writeInfoList.get(position).getNickname());
+                intent.putExtra("title",writeInfoList.get(position).getTitle());
+                intent.putExtra("contents",writeInfoList.get(position).getContents());
+                intent.putExtra("uid(publisher)",writeInfoList.get(position).getPublisher());
+                intent.putExtra("selectedCategory",writeInfoList.get(position).getSelectedCategory());
+                intent.putExtra("numOfRecruit",writeInfoList.get(position).getNumOfRecruits());
+                intent.putExtra("created_at",writeInfoList.get(position).getCreatedAt());
+                listActivity.startActivity(intent);
+                startToast(position + "번째 아이템 클릭");
+
+
+
+
             }
 
             @Override
@@ -69,9 +88,6 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 //        viewHolder.vNickname.setText(writeInfoList.get(i).getNickname());
 //
 //        viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
-
-
-
 
 
     }

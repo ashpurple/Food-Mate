@@ -1,5 +1,6 @@
 package com.example.foodmate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ import java.util.List;
 public class ListActivity extends AppCompatActivity {
     private static final String TAG="ListActivity";
     private FirebaseAuth mAuth;
+    public static Context mContext;
 
     List<WriteInfo> writeInfoList = new ArrayList<>();
     RecyclerView mRecyclerView;
@@ -46,6 +48,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        mContext = this;
 
         //init firestore
         db = FirebaseFirestore.getInstance();
@@ -65,8 +68,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    private void showData() {
-        final DocumentReference documentReference = db.collection("Posts").document();
+    public void showData() {
 
         db.collection("Posts")
                 .get()
