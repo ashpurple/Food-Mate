@@ -16,6 +16,7 @@
         <activity android:name=".PostActivity" />
         <activity android:name=".ListActivity"
             tools:ignore="Instantiatable" />
+        <activity android:name=".ListDetailActivity" />
 
         <activity
             android:name=".LoginActivity"
