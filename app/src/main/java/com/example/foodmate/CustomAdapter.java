@@ -40,17 +40,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 //this will be called when user click item
-
-//                //show data in toast on clicking
-//                String title = writeInfoList.get(position).getTitle();
-//                String descr = writeInfoList.get(position).getContents();
-//                Timestamp createdAt = writeInfoList.get(position).getCreatedAt();
-//                String nickname = writeInfoList.get(position).getNickname();
-
-//                WriteInfo writeInfo =
-//                        new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at);
 
 
                 Intent intent = new Intent(view.getContext(),ListDetailActivity.class);
@@ -59,12 +49,13 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("contents",writeInfoList.get(position).getContents());
                 intent.putExtra("uid(publisher)",writeInfoList.get(position).getPublisher());
                 intent.putExtra("selectedCategory",writeInfoList.get(position).getSelectedCategory());
-                intent.putExtra("numOfRecruit",writeInfoList.get(position).getNumOfRecruits());
-                intent.putExtra("created_at",writeInfoList.get(position).getCreatedAt());
+                intent.putExtra("numOfRecruits",writeInfoList.get(position).getNumOfRecruits());
+                intent.putExtra("status",writeInfoList.get(position).getStatus());
+                intent.putExtra("curRecruits",writeInfoList.get(position).getCurRecruits());
+                intent.putExtra("created_at",getTime(writeInfoList.get(position).getCreatedAt()));
+
                 listActivity.startActivity(intent);
                 startToast(position + "번째 아이템 클릭");
-
-
 
 
             }
@@ -97,11 +88,12 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         return writeInfoList.size();
     }
 
+    //timestamp를 getExtra로 불러올수없음. 전달하기전에 미리 형변환.
     static String getTime(Timestamp time) {
         Date date_createdAt = time.toDate();//Date형식으로 변경
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
         String txt_createdAt = formatter.format(date_createdAt).toString();
-        return formatter.format(new Date());
+        return txt_createdAt;
     }
 
 
