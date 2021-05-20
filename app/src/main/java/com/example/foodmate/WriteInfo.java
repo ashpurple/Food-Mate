@@ -13,6 +13,9 @@ public class WriteInfo {
     private String selectedCategory;
     private Integer numOfRecruits;
     private Timestamp createdAt;
+    private String status; // 3개의 상태 중 하나 (recruiting/recruited/delivered)
+    private Integer curRecruits;
+
 
 
 
@@ -24,6 +27,8 @@ public class WriteInfo {
         this.selectedCategory = selectedCategory;
         this.numOfRecruits = numOfRecuits;
         this.createdAt = createdAt;
+        this.status="recruiting";
+        this.curRecruits=1;
 
 
     }
@@ -43,5 +48,8 @@ public class WriteInfo {
     public void setNumOfRecruits(Integer numOfRecruits) { this.numOfRecruits = numOfRecruits; }
     public Timestamp getCreatedAt(){ return this.createdAt;}
     public void setCreatedAt(Timestamp createdAt){ this.createdAt = createdAt;}
-
+    public String getStatus(){return this.status;}
+    public void setStatus(String status){this.status=status;}
+    public Integer getCurRecruits(){return this.curRecruits;}
+    public void setCurRecruits(Integer curRecruits){this.curRecruits=curRecruits;}
 }
