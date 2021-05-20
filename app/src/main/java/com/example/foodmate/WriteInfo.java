@@ -2,10 +2,13 @@ package com.example.foodmate;
 
 
 import com.google.firebase.Timestamp;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 
 public class WriteInfo {
+    private String posts_id;
     private String nickname;
     private String title;
     private String contents;
@@ -15,13 +18,14 @@ public class WriteInfo {
     private Timestamp createdAt;
     private String status; // 3개의 상태 중 하나 (recruiting/recruited/delivered)
     private Integer curRecruits;
+    private ArrayList participants;
 
 
 
-
-    public WriteInfo(String nickname, String title, String contents, String publisher,
+    public WriteInfo(String posts_id, String nickname, String title, String contents, String publisher,
                      String selectedCategory, Integer numOfRecruits, Timestamp createdAt,
-                     String status, Integer curRecruits){
+                     String status, Integer curRecruits, ArrayList participants){
+        this.posts_id = posts_id;
         this.nickname = nickname;
         this.title = title;
         this.contents = contents;
@@ -31,6 +35,8 @@ public class WriteInfo {
         this.createdAt = createdAt;
         this.status = status;
         this.curRecruits = curRecruits;
+        this.participants = participants;
+
     }
 
 
@@ -54,4 +60,8 @@ public class WriteInfo {
     public void setStatus(String status){this.status=status;}
     public Integer getCurRecruits(){return this.curRecruits;}
     public void setCurRecruits(Integer curRecruits){this.curRecruits=curRecruits;}
+    public ArrayList getParticipants() { return participants; }
+    public void setParticipants(ArrayList participants) { this.participants = participants; }
+    public String getPosts_id() { return posts_id; }
+    public void setPosts_id(String posts_id) { this.posts_id = posts_id; }
 }

@@ -130,6 +130,10 @@ public class WritingActivity extends AppCompatActivity {
             nickname = "익명";
             String status="recruiting";
             int curRecruits=1;
+            ArrayList participants = new ArrayList();
+            String publisher = user.getUid();
+            participants.add(publisher); //글 작성자의 uid를 참여자 배열에 추가
+            String postId = "tempID";
 
 //            Timestamp timestamp_createdAt = writeInfoList.get(position).getCreatedAt(); //파이어베이스 타임스탬프 받아오기
 //            Date date_createdAt = timestamp_createdAt.toDate();//Date형식으로 변경
@@ -137,7 +141,8 @@ public class WritingActivity extends AppCompatActivity {
 //            String createdAt = formatter.format(date_createdAt).toString();
 //
 
-            WriteInfo writeInfo = new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at, status, curRecruits);
+            WriteInfo writeInfo = new WriteInfo(postId, nickname, title, contents, publisher, selectedCategory, numOfRecruit,  created_at, status, curRecruits, participants);
+
             postUploader(writeInfo);
 
 
@@ -180,10 +185,17 @@ public class WritingActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot written with ID: "+documentReference.getId());
                         startToast("등록되었습니다!");
 
+
+
                         //작성한 글 바로 보이기
                         Intent intent = new Intent(getApplicationContext(), PostActivity.class);
                         intent.putExtra("posts_id", posts_id);//포스트 액티비티에 문서 id 전달
                         startActivityForResult(intent, UPLOAD_POST);
+
+//                        //포스트액티비티 말고 ListDetailActivity로 바로 가면 어때
+//                        Intent intent = new Intent(getApplicationContext(), ListDetailActivity.class);
+//                        intent.putExtra("posts_id", posts_id);//포스트 액티비티에 문서 id 전달
+//                        startActivityForResult(intent, UPLOAD_POST);
 
 
                         finish();
@@ -196,6 +208,8 @@ public class WritingActivity extends AppCompatActivity {
                         startToast("등록에 실패하였습니다.");
                     }
                 });
+
+
     }
 
 
