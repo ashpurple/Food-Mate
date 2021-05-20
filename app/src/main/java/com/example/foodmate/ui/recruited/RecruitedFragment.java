@@ -38,15 +38,17 @@ public class RecruitedFragment extends Fragment {
         });
 
         String status="recruited";
-        startListActivity(ListActivity.class,status);
+        int flag=1;
+        startListActivity(ListActivity.class,flag,status);
 
         return root;
 
     }
 
-    private void startListActivity(Class c,String status){
+    private void startListActivity(Class c,int flag,String status){
         Intent intent = new Intent(getActivity(),c);
         intent.putExtra("Status",status);
+        intent.putExtra("Flag",flag);
         startActivity(intent);
     }
 }

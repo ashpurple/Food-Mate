@@ -57,14 +57,29 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
-        String status=intent.getStringExtra("Status");
+        int flag=intent.getExtras().getInt("Flag");
+        if (flag==0){ // recruiting
+            String status=intent.getExtras().getString("Status");
+            String category=intent.getExtras().getString("Category");
+            String[] result={status,category};
+            showData(flag,result);
+            startToast(status+" Posts");
+        }
+        else if(flag==1){
+            String status=intent.getExtras().getString("Status");
+            String[] result={status};
+            showData(flag,result);
+            startToast(status+" Posts");
+        }
+
+
         //show data in recyclerVeiw
-        showData(status);
-        startToast(status+" Posts");
+
+
     }
 
 
-    private void showData(String status) {
+    private void showData(int flag,String[] result) {
         final DocumentReference documentReference = db.collection("Posts").document();
 
 
@@ -90,10 +105,19 @@ public class ListActivity extends AppCompatActivity {
                                     doc.getLong("curRecruits").intValue()
 
                             );
-                            Log.i("Read DB",writeInfo.getStatus());
-                            if(writeInfo.getStatus().equals(status)){
-                                writeInfoList.add(writeInfo);
+                            if(flag==0){//recruiting
+                                if(writeInfo.getStatus().equals(result[0])&&writeInfo.getSelectedCategory().equals(result[1])){
+                                    writeInfoList.add(writeInfo);
+                                }
                             }
+                            else if(flag==1){//recruited
+                                if(writeInfo.getStatus().equals(result[0])){
+                                    writeInfoList.add(writeInfo);
+                                }
+                            }
+
+
+
 
                         }
                         //adapter

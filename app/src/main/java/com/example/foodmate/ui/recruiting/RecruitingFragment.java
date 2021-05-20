@@ -18,6 +18,9 @@ import com.example.foodmate.R;
 import com.example.foodmate.WritingActivity;
 
 public class RecruitingFragment extends Fragment {
+    int flag=0;   // 0=recruiting, 1=recruited, 2=delivered
+    String status="recruiting";
+    String category;
 
     private RecruitingViewModel recruitingViewModel;
 
@@ -56,9 +59,24 @@ public class RecruitingFragment extends Fragment {
                     startMyActivity(WritingActivity.class);
                     break;
                 case R.id.btn_korean:
-                    String status="recruiting";
-                    startListActivity(ListActivity.class,status);
-                    System.out.println("btn_korean 눌림");
+                    category="한식";
+                    startListActivity(ListActivity.class,flag,status,category);
+                    break;
+                case R.id.btn_schoolfood:
+                    category="분식";
+                    startListActivity(ListActivity.class,flag,status,category);
+                    break;
+                case R.id.btn_chicken:
+                    category="치킨";
+                    startListActivity(ListActivity.class,flag,status,category);
+                    break;
+                case R.id.btn_fastfood:
+                    category="패스트푸드";
+                    startListActivity(ListActivity.class,flag,status,category);
+                    break;
+                case R.id.btn_chinese:
+                    category="중식";
+                    startListActivity(ListActivity.class,flag,status,category);
                     break;
             }
         }
@@ -68,9 +86,11 @@ public class RecruitingFragment extends Fragment {
         Intent intent = new Intent(getActivity(),c);
         startActivity(intent);
     }
-    private void startListActivity(Class c,String status){
+    private void startListActivity(Class c,int flag,String status,String category){
         Intent intent = new Intent(getActivity(),c);
+        intent.putExtra("Flag",flag);
         intent.putExtra("Status",status);
+        intent.putExtra("Category",category);
         startActivity(intent);
     }
 }
