@@ -19,19 +19,21 @@ public class WriteInfo {
 
 
 
-    public WriteInfo(String nickname, String title, String contents, String publisher, String selectedCategory, Integer numOfRecuits, Timestamp createdAt, String status, Integer curRecruits){
+    public WriteInfo(String nickname, String title, String contents, String publisher,
+                     String selectedCategory, Integer numOfRecruits, Timestamp createdAt,
+                     String status, Integer curRecruits){
         this.nickname = nickname;
         this.title = title;
         this.contents = contents;
         this.publisher = publisher;
         this.selectedCategory = selectedCategory;
-        this.numOfRecruits = numOfRecuits;
+        this.numOfRecruits = numOfRecruits;
         this.createdAt = createdAt;
-        this.status=status;
-        this.curRecruits=curRecruits;
-
-
+        this.status = status;
+        this.curRecruits = curRecruits;
     }
+
+
 
 
     public String getNickname(){ return this.nickname;}

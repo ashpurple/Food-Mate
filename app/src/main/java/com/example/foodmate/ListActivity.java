@@ -1,5 +1,6 @@
 package com.example.foodmate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ListActivity extends AppCompatActivity {
     private static final String TAG="ListActivity";
     private FirebaseAuth mAuth;
+    public static Context mContext;
 
     List<WriteInfo> writeInfoList = new ArrayList<>();
     RecyclerView mRecyclerView;
@@ -40,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        mContext = this;
 
         //init firestore
         db = FirebaseFirestore.getInstance();
@@ -59,10 +63,13 @@ public class ListActivity extends AppCompatActivity {
         startToast(status+" Posts");
     }
 
+
     private void showData(String status) {
         final DocumentReference documentReference = db.collection("Posts").document();
 
+
         db.collection("Posts")
+                .orderBy("createdAt", Query.Direction.DESCENDING) // createdAt을 기준으로 내림차순으로 보이기
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -75,10 +82,10 @@ public class ListActivity extends AppCompatActivity {
                                     doc.getString("nickname"),
                                     doc.getString("title"),
                                     doc.getString("contents"),
-                                    doc.getString("user.getUid"),
+                                    doc.getString("publisher"),
                                     doc.getString("selectedCategory"),
                                     doc.getLong("numOfRecruits").intValue(),
-                                    doc.getTimestamp("created_at"),
+                                    doc.getTimestamp("createdAt"),
                                     doc.getString("status"),
                                     doc.getLong("curRecruits").intValue()
 
@@ -87,6 +94,7 @@ public class ListActivity extends AppCompatActivity {
                             if(writeInfo.getStatus().equals(status)){
                                 writeInfoList.add(writeInfo);
                             }
+
                         }
                         //adapter
                         adapter = new CustomAdapter(ListActivity.this, writeInfoList);

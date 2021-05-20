@@ -1,5 +1,6 @@
 package com.example.foodmate;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,8 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 mClickListener.onItemClick(v, getAdapterPosition());
+
+                Intent intent = new Intent(itemView.getContext(),ListDetailActivity.class);
 
             }
         });

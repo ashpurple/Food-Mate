@@ -126,14 +126,18 @@ public class WritingActivity extends AppCompatActivity {
 //            User usernick = new User();
 //            nickname = usernick.getNick();
 //            System.out.println("User에서 얻어온 유저 닉네임: "+nickname); //지금은 null임
+
             nickname = "익명";
+            String status="recruiting";
+            int curRecruits=1;
 
 //            Timestamp timestamp_createdAt = writeInfoList.get(position).getCreatedAt(); //파이어베이스 타임스탬프 받아오기
 //            Date date_createdAt = timestamp_createdAt.toDate();//Date형식으로 변경
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
 //            String createdAt = formatter.format(date_createdAt).toString();
 //
-            WriteInfo writeInfo = new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at, "recruiting",1);
+
+            WriteInfo writeInfo = new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at, status, curRecruits);
             postUploader(writeInfo);
 
 
