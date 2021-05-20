@@ -113,7 +113,6 @@ public class ListActivity extends AppCompatActivity {
                                 }
                             }
 
-                            writeInfoList.add(writeInfo);
                         }
 
                         //adapter
