@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,16 +15,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class ListActivity extends AppCompatActivity {
     private static final String TAG="ListActivity";
@@ -56,32 +66,18 @@ public class ListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        Intent intent = getIntent();
-        int flag=intent.getExtras().getInt("Flag");
-        if (flag==0){ // recruiting
-            String status=intent.getExtras().getString("Status");
-            String category=intent.getExtras().getString("Category");
-            String[] result={status,category};
-            showData(flag,result);
-            startToast(status+" Posts");
-        }
-        else if(flag==1){
-            String status=intent.getExtras().getString("Status");
-            String[] result={status};
-            showData(flag,result);
-            startToast(status+" Posts");
-        }
+
+
 
 
         //show data in recyclerVeiw
+        showData();
+
 
 
     }
 
-
-    private void showData(int flag,String[] result) {
-        final DocumentReference documentReference = db.collection("Posts").document();
-
+    public void showData() {
 
         db.collection("Posts")
                 .orderBy("createdAt", Query.Direction.DESCENDING) // createdAt을 기준으로 내림차순으로 보이기
@@ -94,6 +90,7 @@ public class ListActivity extends AppCompatActivity {
                         for(DocumentSnapshot doc:task.getResult()){
 
                             WriteInfo writeInfo = new WriteInfo(
+                                    doc.getString("posts_id"),
                                     doc.getString("nickname"),
                                     doc.getString("title"),
                                     doc.getString("contents"),
@@ -102,23 +99,11 @@ public class ListActivity extends AppCompatActivity {
                                     doc.getLong("numOfRecruits").intValue(),
                                     doc.getTimestamp("createdAt"),
                                     doc.getString("status"),
-                                    doc.getLong("curRecruits").intValue()
-
-                            );
-                            if(flag==0){//recruiting
-                                if(writeInfo.getStatus().equals(result[0])&&writeInfo.getSelectedCategory().equals(result[1])){
-                                    writeInfoList.add(writeInfo);
-                                }
-                            }
-                            else if(flag==1){//recruited
-                                if(writeInfo.getStatus().equals(result[0])){
-                                    writeInfoList.add(writeInfo);
-                                }
-                            }
+                                    doc.getLong("curRecruits").intValue(),
+                                    (ArrayList<String>) doc.get("participants"));
 
 
-
-
+                            writeInfoList.add(writeInfo);
                         }
                         //adapter
                         adapter = new CustomAdapter(ListActivity.this, writeInfoList);

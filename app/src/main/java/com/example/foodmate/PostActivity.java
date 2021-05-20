@@ -37,8 +37,31 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        TextView title = (TextView)findViewById(R.id.title);
 
+        //WritingActivity에서 posts_id 받기
+        Intent intent = getIntent();
+        posts_id = intent.getStringExtra("posts_id");
+        //posts_id 필드 추가
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference db_post = db.collection("Posts").document(posts_id);
+        db_post
+                .update("posts_id", posts_id)// posts_id 필드를 WritingAvtivity 에서 받아온 id값으로 변경
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+
+
+
+        TextView title = (TextView)findViewById(R.id.title);
         TextView nickname = (TextView)findViewById(R.id.nickname);
         TextView category = (TextView)findViewById(R.id.category);
         TextView created_at = (TextView)findViewById(R.id.created_At);
@@ -48,10 +71,8 @@ public class PostActivity extends AppCompatActivity {
         TextView num_comment = (TextView)findViewById(R.id.num_comment);
         TextView status = (TextView)findViewById(R.id.status);
         TextView peopleNum = (TextView)findViewById(R.id.peopleNum);
-        //문서의 uid를 전달 받아서 해당 문서를 보여준다.
-        Intent intent = getIntent();
-        posts_id = intent.getStringExtra("posts_id");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
         DocumentReference docRef = db.collection("Posts").document(posts_id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
