@@ -3,7 +3,6 @@ package com.example.foodmate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -24,8 +22,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class ListActivity extends AppCompatActivity {
-    private static final String TAG="ListActivity";
+    private static final String TAG = "ListActivity";
     private FirebaseAuth mAuth;
     public static Context mContext;
 
@@ -57,6 +57,8 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
+
+        //show data in recyclerview
         int flag=intent.getExtras().getInt("Flag");
         if (flag==0){ // recruiting
             String status=intent.getExtras().getString("Status");
@@ -73,15 +75,9 @@ public class ListActivity extends AppCompatActivity {
         }
 
 
-        //show data in recyclerVeiw
-
-
     }
 
-
-    private void showData(int flag,String[] result) {
-        final DocumentReference documentReference = db.collection("Posts").document();
-
+    private void showData(int flag, String[] result) {
 
         db.collection("Posts")
                 .orderBy("createdAt", Query.Direction.DESCENDING) // createdAt을 기준으로 내림차순으로 보이기
@@ -91,9 +87,10 @@ public class ListActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                         //show data
-                        for(DocumentSnapshot doc:task.getResult()){
+                        for (DocumentSnapshot doc : task.getResult()) {
 
                             WriteInfo writeInfo = new WriteInfo(
+                                    doc.getString("posts_id"),
                                     doc.getString("nickname"),
                                     doc.getString("title"),
                                     doc.getString("contents"),
@@ -102,9 +99,9 @@ public class ListActivity extends AppCompatActivity {
                                     doc.getLong("numOfRecruits").intValue(),
                                     doc.getTimestamp("createdAt"),
                                     doc.getString("status"),
-                                    doc.getLong("curRecruits").intValue()
+                                    doc.getLong("curRecruits").intValue(),
+                                    (ArrayList<String>) doc.get("participants"));
 
-                            );
                             if(flag==0){//recruiting
                                 if(writeInfo.getStatus().equals(result[0])&&writeInfo.getSelectedCategory().equals(result[1])){
                                     writeInfoList.add(writeInfo);
@@ -116,10 +113,9 @@ public class ListActivity extends AppCompatActivity {
                                 }
                             }
 
-
-
-
+                            writeInfoList.add(writeInfo);
                         }
+
                         //adapter
                         adapter = new CustomAdapter(ListActivity.this, writeInfoList);
                         //set adapter to recyclerview
@@ -136,11 +132,8 @@ public class ListActivity extends AppCompatActivity {
     }
 
 
-
-
-    private void startToast(String msg){
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
-
 
 }

@@ -53,6 +53,9 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("status",writeInfoList.get(position).getStatus());
                 intent.putExtra("curRecruits",writeInfoList.get(position).getCurRecruits());
                 intent.putExtra("created_at",getTime(writeInfoList.get(position).getCreatedAt()));
+                intent.putExtra("participants",writeInfoList.get(position).getParticipants());
+                intent.putExtra("posts_id", writeInfoList.get(position).getPosts_id());
+                System.out.println("adapter 에서의 posts id: "+ writeInfoList.get(position).getPosts_id());
 
                 listActivity.startActivity(intent);
                 startToast(position + "번째 아이템 클릭");
