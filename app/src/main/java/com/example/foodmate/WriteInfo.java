@@ -19,7 +19,7 @@ public class WriteInfo {
 
 
 
-    public WriteInfo(String nickname, String title, String contents, String publisher, String selectedCategory, Integer numOfRecuits, Timestamp createdAt){
+    public WriteInfo(String nickname, String title, String contents, String publisher, String selectedCategory, Integer numOfRecuits, Timestamp createdAt, String status, Integer curRecruits){
         this.nickname = nickname;
         this.title = title;
         this.contents = contents;
@@ -27,8 +27,8 @@ public class WriteInfo {
         this.selectedCategory = selectedCategory;
         this.numOfRecruits = numOfRecuits;
         this.createdAt = createdAt;
-        this.status="recruiting";
-        this.curRecruits=1;
+        this.status=status;
+        this.curRecruits=curRecruits;
 
 
     }

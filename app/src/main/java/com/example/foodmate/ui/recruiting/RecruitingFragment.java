@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +14,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.foodmate.ListActivity;
-import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
 import com.example.foodmate.WritingActivity;
-import com.example.foodmate.ui.recruiting.RecruitingViewModel;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class RecruitingFragment extends Fragment {
 
@@ -55,11 +51,13 @@ public class RecruitingFragment extends Fragment {
         public void onClick(View v) {
 
             switch (v.getId()){
+
                 case R.id.btn_addNew:
                     startMyActivity(WritingActivity.class);
                     break;
                 case R.id.btn_korean:
-                    startMyActivity(ListActivity.class);
+                    String status="recruiting";
+                    startListActivity(ListActivity.class,status);
                     System.out.println("btn_korean 눌림");
                     break;
             }
@@ -68,6 +66,11 @@ public class RecruitingFragment extends Fragment {
 
     private void startMyActivity(Class c){
         Intent intent = new Intent(getActivity(),c);
+        startActivity(intent);
+    }
+    private void startListActivity(Class c,String status){
+        Intent intent = new Intent(getActivity(),c);
+        intent.putExtra("Status",status);
         startActivity(intent);
     }
 }

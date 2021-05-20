@@ -133,7 +133,7 @@ public class WritingActivity extends AppCompatActivity {
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
 //            String createdAt = formatter.format(date_createdAt).toString();
 //
-            WriteInfo writeInfo = new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at);
+            WriteInfo writeInfo = new WriteInfo(nickname, title, contents, user.getUid(), selectedCategory, numOfRecruit,  created_at, "recruiting",1);
             postUploader(writeInfo);
 
 

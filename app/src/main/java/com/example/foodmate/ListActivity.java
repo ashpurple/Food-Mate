@@ -3,8 +3,6 @@ package com.example.foodmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,17 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
@@ -58,14 +52,14 @@ public class ListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
+        Intent intent = getIntent();
+        String status=intent.getStringExtra("Status");
         //show data in recyclerVeiw
-        showData();
-
-
-
+        showData(status);
+        startToast(status+" Posts");
     }
 
-    private void showData() {
+    private void showData(String status) {
         final DocumentReference documentReference = db.collection("Posts").document();
 
         db.collection("Posts")
@@ -83,11 +77,16 @@ public class ListActivity extends AppCompatActivity {
                                     doc.getString("contents"),
                                     doc.getString("user.getUid"),
                                     doc.getString("selectedCategory"),
-                                    (Integer) doc.get("numOfRecruit"),
-                                    doc.getTimestamp("created_at"));
+                                    doc.getLong("numOfRecruits").intValue(),
+                                    doc.getTimestamp("created_at"),
+                                    doc.getString("status"),
+                                    doc.getLong("curRecruits").intValue()
 
-
-                            writeInfoList.add(writeInfo);
+                            );
+                            Log.i("Read DB",writeInfo.getStatus());
+                            if(writeInfo.getStatus().equals(status)){
+                                writeInfoList.add(writeInfo);
+                            }
                         }
                         //adapter
                         adapter = new CustomAdapter(ListActivity.this, writeInfoList);

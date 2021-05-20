@@ -1,6 +1,5 @@
 package com.example.foodmate;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.listActivity = listActivity;
         this.writeInfoList = writeInfoList;
     }
+
 
     @NonNull
     @Override
