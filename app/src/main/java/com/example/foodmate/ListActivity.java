@@ -63,13 +63,13 @@ public class ListActivity extends AppCompatActivity {
             String category=intent.getExtras().getString("Category");
             String[] result={status,category};
             showData(flag,result);
-            startToast(status+" Posts");
+            startToast(status+" "+category+" Posts");
         }
         else if(flag==1){
             String status=intent.getExtras().getString("Status");
             String[] result={status};
             showData(flag,result);
-            startToast(status+" Posts");
+            startToast(status+" posts");
         }
 
 

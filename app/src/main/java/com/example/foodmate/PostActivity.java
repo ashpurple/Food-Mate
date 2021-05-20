@@ -3,6 +3,7 @@ package com.example.foodmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class PostActivity extends AppCompatActivity {
         TextView num_comment = (TextView)findViewById(R.id.num_comment);
         TextView status = (TextView)findViewById(R.id.status);
         TextView peopleNum = (TextView)findViewById(R.id.peopleNum);
+        Button join = (Button)findViewById(R.id.btn_join);
         //문서의 uid를 전달 받아서 해당 문서를 보여준다.
         Intent intent = getIntent();
         posts_id = intent.getStringExtra("posts_id");

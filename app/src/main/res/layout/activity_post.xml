@@ -133,6 +133,14 @@
             android:layout_marginLeft="5dp"
             android:textSize="20sp"
             android:layout_marginStart="5dp" />
+
+        <Button
+            android:id="@+id/btn_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="참여하기" />
+
     </LinearLayout>
 </LinearLayout>
 </ScrollView>
