@@ -46,6 +46,8 @@ public class PostActivity extends AppCompatActivity {
         TextView contents = (TextView)findViewById(R.id.contents);
         ImageButton comment = (ImageButton)findViewById(R.id.comment);
         TextView num_comment = (TextView)findViewById(R.id.num_comment);
+        TextView status = (TextView)findViewById(R.id.status);
+        TextView peopleNum = (TextView)findViewById(R.id.peopleNum);
         //문서의 uid를 전달 받아서 해당 문서를 보여준다.
         Intent intent = getIntent();
         posts_id = intent.getStringExtra("posts_id");
@@ -62,7 +64,10 @@ public class PostActivity extends AppCompatActivity {
                         String txt_category = document.getData().get("selectedCategory").toString();
                         String txt_nickname = document.getData().get("nickname").toString();
                         String txt_contents = document.getData().get("contents").toString();
-
+                        String txt_status = document.getData().get("status").toString();
+                        String txt_totalPeople = document.getData().get("numOfRecruits").toString();
+                        String txt_curPeople = document.getData().get("curRecruits").toString();
+                        String txt_people=txt_curPeople+"/"+txt_totalPeople; // 참여 인원 텍스트
                         Timestamp timestamp_createdAt = (Timestamp) document.getData().get("createdAt"); //파이어베이스 타임스탬프 받아오기
                         Date date_createdAt = timestamp_createdAt.toDate();//Date형식으로 변경
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
@@ -76,6 +81,8 @@ public class PostActivity extends AppCompatActivity {
                         created_at.setText(txt_createdAt);
                         contents.setText(txt_contents);
                         num_comment.setText(String.valueOf(int_num_comment));
+                        status.setText(txt_status);
+                        peopleNum.setText(txt_people);
 
 
                     } else {
