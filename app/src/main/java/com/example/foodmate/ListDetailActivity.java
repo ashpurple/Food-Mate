@@ -46,8 +46,6 @@ public class ListDetailActivity extends AppCompatActivity {
 
 
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +65,6 @@ public class ListDetailActivity extends AppCompatActivity {
 
         Button btn_join = findViewById(R.id.btn_join);
 
-
-        // getIntent로 customAdapter에서 전달받은 값 가져오기
 
 
         String txt_title = intent.getExtras().getString("title");
@@ -105,8 +101,6 @@ public class ListDetailActivity extends AppCompatActivity {
         }
 
 
-
-
         System.out.println("join 누르기 전 호출: isJoined = "+isJoined);
         //참여하기 버튼 클릭
         btn_join = findViewById(R.id.btn_join);
@@ -122,13 +116,9 @@ public class ListDetailActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void joinIn(String uid) {
-        System.out.println("join 누른 후 호출: isJoined = "+isJoined);
-//        isJoined = true;
-        System.out.println("posts_id : "+posts_id);
         // 현재 게시글의 id : posts_id
         DocumentReference postRef = db.collection("Posts").document(posts_id);
 
@@ -155,40 +145,14 @@ public class ListDetailActivity extends AppCompatActivity {
                     status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
                 }
 
-
-
-
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
-
-
-
 
             }
             System.out.println("****************************");
             System.out.println("participants: "+ participants);
             System.out.println("participants.contains(uid) : "+ participants.contains(uid));
 
-////                    for(int i = 0; i<participants.size(); i++
-//            postref.update("participants", FieldValue.arrayUnion(uid))
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//
-//                            startToast("참여 완료되었습니다!");
-//                            int_curRecruits++; // 이거대신 arraylist 개수를 파이어스토어에 바로 반영하자
-//                            postref.update("curRecruits", FieldValue.increment(1));
-//                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() { //이미 있는사람이 클릭하는데 반응 안함
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            startToast("이미 참여한 글입니다.");
-//                            Log.w(TAG, "Error updating document", e);
-//                        }
-//                    });
         }
-
 
         else{
             postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
@@ -196,25 +160,13 @@ public class ListDetailActivity extends AppCompatActivity {
             startToast("모집이 완료된 글입니다.");
         }
 
-
     }
-
 
 
     @Override
     public void onBackPressed(){
-//        ((ListActivity)ListActivity.mContext).onResume();
         finish();
     }
-
-//    private void startListActivity(Class c,int flag,String status,String category){
-//        Intent intent = new Intent(getActivity(),c);
-//        intent.putExtra("Flag",flag);
-//        intent.putExtra("Status",status);
-//        intent.putExtra("Category",category);
-//        startActivity(intent);
-//    }
-
 
 
     private void startToast(String msg) {
