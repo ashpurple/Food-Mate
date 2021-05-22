@@ -6,15 +6,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG="SignUpActivity";
     private FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +99,46 @@ public class SignUpActivity extends AppCompatActivity {
                                         });
 
                                 if (task.isSuccessful()) {
+                                    String uid=mAuth.getUid();
 
-                                    // Store to DB
+                                    FirebaseMessaging.getInstance().getToken()
+                                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<String> task) {
+                                                    if (!task.isSuccessful()) {
+                                                        Log.w("Token", "Fetching FCM registration token failed", task.getException());
+                                                        return;
+                                                    }
+                                                    // Get new FCM registration token
+                                                    String token = task.getResult();
+                                                    // Log and toast
+                                                    Log.d("Token", token);
+                                                    // 토큰 저장
+
+                                                    Map<String, Object> users = new HashMap<>();
+                                                    users.put("uid", uid);
+                                                    users.put("token", token);
+                                                    users.put("email",email);
+                                                    users.put("nickname",nickName);
+
+                                                    db = FirebaseFirestore.getInstance();
+                                                    db.collection("Users").document(uid)
+                                                            .set(users)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    Log.d("Token Save", "DocumentSnapshot successfully written!");
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Log.w("Token Save", "Error writing document", e);
+                                                                }
+                                                            });
+                                                }
+                                            });
+                                    // Store to Real Time Database
                                     DatabaseReference userRef = User_Reference.userRef.child(key);
                                     User newUser = new User(key, nickName);
                                     userRef.setValue(newUser);

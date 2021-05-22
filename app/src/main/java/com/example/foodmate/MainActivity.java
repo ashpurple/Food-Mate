@@ -42,51 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d("Main", "create main");
-        // 토큰 발급
-
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("Token", "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
-                        // Get new FCM registration token
-                        String token = task.getResult();
-                        // Log and toast
-                        Log.d("Token", token);
-                        //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
-
-                        // 토큰 저장
-                        user = FirebaseAuth.getInstance().getCurrentUser();
-                        String uid=user.getUid();
-
-                        Map<String, Object> users = new HashMap<>();
-                        users.put("uid", uid);
-                        users.put("token", token);
-
-                        db = FirebaseFirestore.getInstance();
-                        db.collection("Users").document(uid)
-                                .set(users)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("Token Save", "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("Token Save", "Error writing document", e);
-                                    }
-                                });
-                        List<String> temp = new ArrayList<>();
-                        temp.add(uid);
-                        SendMessage sendMessage = new SendMessage(temp,"테스트","Test Message");
-                    }
-                });
-
 
         // 로그인 된 상태가 아니라면
         if(FirebaseAuth.getInstance().getCurrentUser()==null){
