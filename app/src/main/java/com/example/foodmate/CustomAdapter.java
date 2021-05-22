@@ -47,7 +47,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("nickname",writeInfoList.get(position).getNickname());
                 intent.putExtra("title",writeInfoList.get(position).getTitle());
                 intent.putExtra("contents",writeInfoList.get(position).getContents());
-                intent.putExtra("uid(publisher)",writeInfoList.get(position).getPublisher());
+                intent.putExtra("publisher",writeInfoList.get(position).getPublisher());
                 intent.putExtra("selectedCategory",writeInfoList.get(position).getSelectedCategory());
                 intent.putExtra("numOfRecruits",writeInfoList.get(position).getNumOfRecruits());
                 intent.putExtra("status",writeInfoList.get(position).getStatus());
@@ -58,7 +58,6 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 System.out.println("adapter 에서의 posts id: "+ writeInfoList.get(position).getPosts_id());
 
                 listActivity.startActivity(intent);
-                startToast(position + "번째 아이템 클릭");
 
 
             }
