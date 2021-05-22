@@ -48,37 +48,6 @@ public class ListActivity extends AppCompatActivity {
         mContext = this;
 
 
-
-//        //init firestore
-//        db = FirebaseFirestore.getInstance();
-//
-//
-//        //initialize views
-//        mRecyclerView = findViewById(R.id.recycler_view);
-//        //set recycler view properties
-//        mRecyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//
-//        Intent intent = getIntent();
-//
-//        //show data in recyclerview
-//        int flag=intent.getExtras().getInt("Flag");
-//        if (flag==0){ // recruiting
-//            String status=intent.getExtras().getString("Status");
-//            String category=intent.getExtras().getString("Category");
-//            String[] result={status,category};
-//            showData(flag,result);
-//            startToast(status+" Posts");
-//        }
-//        else if(flag==1){
-//            String status=intent.getExtras().getString("Status");
-//            String[] result={status};
-//            showData(flag,result);
-//            startToast(status+" Posts");
-//        }
-
-
     }
 
     private void showData(int flag, String[] result) {
@@ -156,8 +125,6 @@ public class ListActivity extends AppCompatActivity {
         //initialize views
         mRecyclerView = findViewById(R.id.recycler_view);
 
-//        adapter.notifyDataSetChanged();
-
         //set recycler view properties
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -183,22 +150,7 @@ public class ListActivity extends AppCompatActivity {
             startToast(status+" Posts");
         }
 
-
     }
-
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        setContentView(R.layout.activity_list);
-//        mContext = this;
-//        System.out.println("onResuem 호출됨!!! 그리고 이제 update 할거임");
-//
-////        adapter.notifyDataSetChanged();
-////        System.out.println("호출: adapter.notifyDataSetChanged(); 완료");
-//        data.clear();
-//        adapter.notifyDataSetChanged();
-//    }
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
