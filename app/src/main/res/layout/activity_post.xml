@@ -138,7 +138,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:textSize="20sp"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                android:hint="참여자들에게 배달장소를 알려주세요"
+                />
 
             <Button
                 android:id="@+id/btn_join"

@@ -41,8 +41,7 @@ public class ListActivity extends AppCompatActivity {
     //firestore instance
     FirebaseFirestore db;
     CustomAdapter adapter;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +49,12 @@ public class ListActivity extends AppCompatActivity {
         mContext = this;
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startMyActivity(MainActivity.class);
     }
 
     private void showData(int flag, String[] result) {
@@ -155,6 +160,10 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
+    private void startMyActivity(Class c){
+        Intent intent = new Intent(this,c);
+        startActivity(intent);
+    }
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
