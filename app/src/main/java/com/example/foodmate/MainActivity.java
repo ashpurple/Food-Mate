@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                         List<String> temp = new ArrayList<>();
                         temp.add(uid);
-                        SendMessage sendMessage = new SendMessage(temp,"모집완료","참여 게시물이 모집 완료되었습니다");
+                        SendMessage sendMessage = new SendMessage(temp,"테스트","Test Message");
                     }
                 });
 

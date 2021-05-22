@@ -14,26 +14,35 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
 public class ListDetailActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList participants;
+
+    ArrayList<String> participants;
     String posts_id;
     int int_numOfRecruits, int_curRecruits;
     TextView peopleNum;
-
+    TextView status;
+    boolean isJoined = false;
 
 
 
@@ -51,20 +60,18 @@ public class ListDetailActivity extends AppCompatActivity {
         TextView contents = (TextView) findViewById(R.id.contents);
         ImageButton comment = (ImageButton) findViewById(R.id.comment);
         //        TextView num_recruit = (TextView)findViewById(R.id.num_recruit);
-        TextView status = (TextView) findViewById(R.id.status);
+        status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
 
         Button btn_join = findViewById(R.id.btn_join);
 
-
-        // getIntent로 customAdapter에서 전달받은 값 가져오기
 
 
         String txt_title = intent.getExtras().getString("title");
         //String txt_nickname = intent.getExtras().getString("nickname");
         String txt_nickname = "익명";
         String txt_contents = intent.getExtras().getString("contents");
-        String txt_publisher = intent.getExtras().getString("uid(publisher)");
+        String txt_publisher = intent.getExtras().getString("publisher");
         String txt_selectedCategory = intent.getExtras().getString("selectedCategory");
         String txt_createdAt = intent.getExtras().getString("created_at");
         String txt_status = intent.getExtras().getString("status");
@@ -73,7 +80,7 @@ public class ListDetailActivity extends AppCompatActivity {
         participants = intent.getExtras().getStringArrayList("participants");
         posts_id = intent.getExtras().getString("posts_id");
 
-
+        DocumentReference postRef = db.collection("Posts").document(posts_id);
 
         //위에서 받아온 내용 각각의 textview에 setText
         title.setText(txt_title);
@@ -84,45 +91,79 @@ public class ListDetailActivity extends AppCompatActivity {
         status.setText(txt_status);
         peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
+        System.out.println("txt_publisher = "+txt_publisher);
+        System.out.println("user.getUid = "+user.getUid());
 
+        //participants 리스트에 있으면 joined 를 true로 바꾸기
+        if(participants.contains(user.getUid())){
+            isJoined = true;
+        }
+
+
+        System.out.println("join 누르기 전 호출: isJoined = "+isJoined);
         //참여하기 버튼 클릭
         btn_join = findViewById(R.id.btn_join);
         btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                joinIn(user.getUid()); //참여자의 uid
+                if(txt_publisher!=user.getUid()) {
+                    joinIn(user.getUid()); //참여자의 uid
+                }else{
+                    startToast("내가 작성한 글입니다!");
+                }
 
             }
         });
 
-
     }
 
     private void joinIn(String uid) {
-
         // 현재 게시글의 id : posts_id
-        DocumentReference postref = db.collection("Posts").document(posts_id);
+        DocumentReference postRef = db.collection("Posts").document(posts_id);
 
+
+        Intent intent = getIntent();
         if(int_numOfRecruits != int_curRecruits) {
-            //participants arraylist에 join하는사람 uid 추가
-            postref.update("participants", FieldValue.arrayUnion(uid));
 
 
-            //개인 유저의 참여한 게시글에 추가
-            //user collection을 만들어서 필드에 참여한 게시글 추가..?
+            if(isJoined){
+                startToast("이미 참여한 글입니다.");
+            }else{
+                postRef.update("participants", FieldValue.arrayUnion(uid));//파이어스토어 participants에 참여자 uid 추가
+                startToast("참여 완료되었습니다!");
+                isJoined = true;
+                participants = intent.getExtras().getStringArrayList("participants");
+                System.out.println("participants : "+ participants);
+                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
 
+                ++int_curRecruits;
+                peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-            //current 사람 추가
-            int_curRecruits++;
-            postref.update("curRecruits", FieldValue.increment(1));
-            peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
+                if(int_numOfRecruits == int_curRecruits) {
+                    postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
+                    status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
+                }
 
-//            peopleNum = (TextView) findViewById(R.id.peopleNum);
-        }else{
+                Log.d(TAG, "DocumentSnapshot successfully updated!");
+
+            }
+            System.out.println("****************************");
+            System.out.println("participants: "+ participants);
+            System.out.println("participants.contains(uid) : "+ participants.contains(uid));
+
+        }
+
+        else{
+            postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
+            status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
             startToast("모집이 완료된 글입니다.");
         }
 
+    }
 
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
 

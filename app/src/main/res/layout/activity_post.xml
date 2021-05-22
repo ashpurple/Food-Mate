@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:paddingLeft="10dp"
-                android:text="참여하기" />
+                android:text="참여" />
 
         </LinearLayout>
 
