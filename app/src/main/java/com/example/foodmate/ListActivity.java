@@ -62,11 +62,7 @@ public class ListActivity extends AppCompatActivity {
                         //show data
                         for (DocumentSnapshot doc : task.getResult()) {
 
-                            temp_title = doc.getString("title");
-                            participants_list=(ArrayList<String>) doc.get("participants");
-                            System.out.println("호출 showData, title: " + temp_title);
-                            System.out.println("호출 paticipants list: " + participants_list);
-                            System.out.println("publisher : " + doc.getString("publisher"));
+
                             WriteInfo writeInfo = new WriteInfo(
                                     doc.getString("posts_id"),
                                     doc.getString("nickname"),
@@ -90,8 +86,6 @@ public class ListActivity extends AppCompatActivity {
                                     writeInfoList.add(writeInfo);
                                 }
                             }
-
-                            writeInfoList.add(writeInfo);
                         }
 
                         //adapter
@@ -115,13 +109,11 @@ public class ListActivity extends AppCompatActivity {
         super.onResume();
         setContentView(R.layout.activity_list);
         mContext = this;
-        System.out.println("onResuem 호출됨!!!");
 
         //init firestore
         db = FirebaseFirestore.getInstance();
 
         writeInfoList.clear();
-        System.out.println("호출: clear 실행됨");
         //initialize views
         mRecyclerView = findViewById(R.id.recycler_view);
 
@@ -138,14 +130,12 @@ public class ListActivity extends AppCompatActivity {
             String status=intent.getExtras().getString("Status");
             String category=intent.getExtras().getString("Category");
             String[] result={status,category};
-            System.out.println("onResuem에서 showdata 호출됨!!!");
             showData(flag,result);
             startToast(status+" Posts");
         }
         else if(flag==1){
             String status=intent.getExtras().getString("Status");
             String[] result={status};
-            System.out.println("onResuem에서 showdata 호출됨!!!");
             showData(flag,result);
             startToast(status+" Posts");
         }
