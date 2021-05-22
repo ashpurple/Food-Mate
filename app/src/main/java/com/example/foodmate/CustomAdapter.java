@@ -91,6 +91,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         return writeInfoList.size();
     }
 
+
     //timestamp를 getExtra로 불러올수없음. 전달하기전에 미리 형변환.
     static String getTime(Timestamp time) {
         Date date_createdAt = time.toDate();//Date형식으로 변경
