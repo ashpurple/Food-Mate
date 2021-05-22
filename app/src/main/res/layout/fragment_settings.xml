@@ -26,12 +26,12 @@
         android:text="Logout" />
 
     <Button
-        android:id="@+id/btn_changeNickname"
+        android:id="@+id/btn_history"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@color/main_orange"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:text="Change Nickname" />
+        android:background="@color/main_orange"
+        android:text="History" />
 
 </RelativeLayout>

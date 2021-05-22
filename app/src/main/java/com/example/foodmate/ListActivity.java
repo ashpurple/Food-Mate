@@ -3,6 +3,7 @@ package com.example.foodmate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -87,7 +88,11 @@ public class ListActivity extends AppCompatActivity {
                                     writeInfoList.add(writeInfo);
                                 }
                             }
-
+                            else if(flag==2){
+                                if(writeInfo.getStatus().equals(result[0])&&writeInfo.getParticipants().contains(mAuth.getUid())){
+                                    writeInfoList.add(writeInfo);
+                                }
+                            }
                         }
 
                         //adapter
@@ -136,6 +141,12 @@ public class ListActivity extends AppCompatActivity {
             startToast(status+" Posts");
         }
         else if(flag==1){
+            String status=intent.getExtras().getString("Status");
+            String[] result={status};
+            showData(flag,result);
+            startToast(status+" Posts");
+        }
+        else if(flag==2){
             String status=intent.getExtras().getString("Status");
             String[] result={status};
             showData(flag,result);

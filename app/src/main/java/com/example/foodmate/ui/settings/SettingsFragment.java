@@ -19,6 +19,7 @@ import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.foodmate.ListActivity;
 import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
 import com.example.foodmate.ui.recruiting.RecruitingViewModel;
@@ -42,6 +43,7 @@ public class SettingsFragment extends Fragment {
         });
 
         Button btn_logout = (Button) root.findViewById(R.id.btn_logout);
+        Button btn_history = (Button) root.findViewById(R.id.btn_history);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,12 +53,26 @@ public class SettingsFragment extends Fragment {
                 startMyActivity(LoginActivity.class);
             }
         });
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String status="delivered";
+                int flag=2;
+                startListActivity(ListActivity.class,flag,status);
+            }
+        });
 
         return root;
     }
 
     private void startMyActivity(Class c){
         Intent intent = new Intent(getActivity(),c);
+        startActivity(intent);
+    }
+    private void startListActivity(Class c,int flag,String status){
+        Intent intent = new Intent(getActivity(),c);
+        intent.putExtra("Status",status);
+        intent.putExtra("Flag",flag);
         startActivity(intent);
     }
 

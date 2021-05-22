@@ -108,7 +108,6 @@ public class ListDetailActivity extends AppCompatActivity {
             btn_join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "작성자"+txt_publisher);
                     if (txt_publisher != user.getUid()) {
                         joinIn(user.getUid()); //참여자의 uid
                     } else {

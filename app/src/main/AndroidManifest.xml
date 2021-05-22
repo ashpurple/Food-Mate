@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.foodmate">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
@@ -10,6 +12,8 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".History"></activity>
+
         <service
             android:name=".pushNoti.FCMservice"
             android:exported="false">
@@ -18,14 +22,14 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".PasswordResetActivity"></activity>
+        <activity android:name=".PasswordResetActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".WritingActivity" />
         <activity android:name=".PostActivity" />
-        <activity android:name=".ListActivity"
+        <activity
+            android:name=".ListActivity"
             tools:ignore="Instantiatable" />
         <activity android:name=".ListDetailActivity" />
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
