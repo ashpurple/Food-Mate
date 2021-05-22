@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -26,7 +27,7 @@ import static android.content.ContentValues.TAG;
 
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
-    private FirebaseAuth mAuth;
+    private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
     public static Context mContext;
     ArrayList<String> participants_list;
     String temp_title;
@@ -81,11 +82,12 @@ public class ListActivity extends AppCompatActivity {
                                     writeInfoList.add(writeInfo);
                                 }
                             }
-                            else if(flag==1){//recruited
+                            else if(flag==1&&writeInfo.getParticipants().contains(mAuth.getUid())){//recruited
                                 if(writeInfo.getStatus().equals(result[0])){
                                     writeInfoList.add(writeInfo);
                                 }
                             }
+
                         }
 
                         //adapter

@@ -58,7 +58,6 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 System.out.println("adapter 에서의 posts id: "+ writeInfoList.get(position).getPosts_id());
 
                 listActivity.startActivity(intent);
-                startToast(position + "번째 아이템 클릭");
 
 
             }

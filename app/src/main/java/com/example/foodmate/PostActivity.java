@@ -3,6 +3,7 @@ package com.example.foodmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,7 +72,6 @@ public class PostActivity extends AppCompatActivity {
         TextView num_comment = (TextView)findViewById(R.id.num_comment);
         TextView status = (TextView)findViewById(R.id.status);
         TextView peopleNum = (TextView)findViewById(R.id.peopleNum);
-
 
         DocumentReference docRef = db.collection("Posts").document(posts_id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.foodmate.pushNoti.SendMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -36,7 +38,7 @@ import static android.content.ContentValues.TAG;
 public class ListDetailActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    MainActivity mainActivity;
     ArrayList<String> participants;
     String posts_id;
     int int_numOfRecruits, int_curRecruits;
@@ -88,6 +90,12 @@ public class ListDetailActivity extends AppCompatActivity {
 
         System.out.println("txt_publisher = "+txt_publisher);
         System.out.println("user.getUid = "+user.getUid());
+        if(txt_status.equals("recruiting")) { // 상태가 모집중 이라면
+            //participants 리스트에 있으면 joined 를 true로 바꾸기
+            if (participants.contains(user.getUid())) {
+                isJoined = true;
+            }
+
 
         //participants 리스트에 있으면 joined 를 true로 바꾸기
         if(participants.contains(user.getUid())){
@@ -103,16 +111,42 @@ public class ListDetailActivity extends AppCompatActivity {
                     joinIn(user.getUid()); //참여자의 uid
                 }else{
                     startToast("내가 작성한 글입니다!");
-                }
 
+
+                }
+            });
+        }
+        else if(txt_status.equals("recruited")){ // 상태가 모집완료라면
+            if(!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
+                btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
             }
-        });
+            else { // 작성자라면
+                btn_join.setText("배달 완료");
+                btn_join.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        postRef.update("status", "delivered");//파이어스토어에서 status 업데이트
+                        // 푸시알림
+                        String msgTitle = "'" + txt_title + "' 게시물 배달 완료 알림";
+                        String msgContent = "배달음식이 배달되었습니다!";
+                        SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
+                        startToast("참여자들에게 배달 완료 푸시 알림을 보냈습니다.");
+                    }
+                });
+            }
+
+        }
+        else{
+            btn_join.setVisibility(View.INVISIBLE);
+        }
 
     }
 
     private void joinIn(String uid) {
         // 현재 게시글의 id : posts_id
-        DocumentReference postRef = db.collection("Posts").document(posts_id);
+        
+      postRef = db.collection("Posts").document(posts_id);
 
         Intent intent = getIntent();
         if(int_numOfRecruits != int_curRecruits) {
@@ -125,6 +159,9 @@ public class ListDetailActivity extends AppCompatActivity {
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
+                participants.add(uid); // 참여자에 추가
+
+
                 postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
                 ++int_curRecruits; //내부에서 1 추가
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
@@ -132,6 +169,12 @@ public class ListDetailActivity extends AppCompatActivity {
                 if(int_numOfRecruits == int_curRecruits) {
                     postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
                     status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
+                    // 모집완료 알림
+                    String title = intent.getExtras().getString("title");
+                    int number = intent.getExtras().getInt("numOfRecruits");
+                    String msgTitle="'"+title+"' 게시물 모집완료 알림";
+                    String msgContent=number+"명 모집이 완료되었습니다!";
+                    SendMessage sendMessage = new SendMessage(participants,msgTitle,msgContent);
                 }
 
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
@@ -146,7 +189,6 @@ public class ListDetailActivity extends AppCompatActivity {
         }
 
     }
-
 
     @Override
     public void onBackPressed(){
