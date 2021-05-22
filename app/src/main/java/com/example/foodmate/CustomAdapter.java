@@ -78,9 +78,8 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         //bind views /set data
         viewHolder.vTitle.setText(writeInfoList.get(i).getTitle());
         viewHolder.vContents.setText(writeInfoList.get(i).getContents());
-//        viewHolder.vNickname.setText(writeInfoList.get(i).getNickname());
-//
-//        viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
+        viewHolder.vNickname.setText(writeInfoList.get(i).getNickname());
+       viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
 
 
     }

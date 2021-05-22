@@ -2,6 +2,7 @@ package com.example.foodmate.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,23 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
 import com.example.foodmate.ui.recruiting.RecruitingViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
+    DocumentReference docRef = db.collection("Users").document(users.getUid());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +53,26 @@ public class SettingsFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+
+        TextView nickname = root.findViewById(R.id.user_nickname);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        String txt_nickname = document.getData().get("nickname").toString();
+                        nickname.setText(txt_nickname);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+
+                }
+            }
+        });
+
 
         Button btn_logout = (Button) root.findViewById(R.id.btn_logout);
 

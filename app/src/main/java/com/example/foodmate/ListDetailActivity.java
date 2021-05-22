@@ -61,17 +61,13 @@ public class ListDetailActivity extends AppCompatActivity {
         ImageButton user_menu = (ImageButton) findViewById(R.id.user_menu);
         TextView contents = (TextView) findViewById(R.id.contents);
         ImageButton comment = (ImageButton) findViewById(R.id.comment);
-        //        TextView num_recruit = (TextView)findViewById(R.id.num_recruit);
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
 
         Button btn_join = findViewById(R.id.btn_join);
 
-
-
         String txt_title = intent.getExtras().getString("title");
-        //String txt_nickname = intent.getExtras().getString("nickname");
-        String txt_nickname = "익명";
+        String txt_nickname = intent.getExtras().getString("nickname");
         String txt_contents = intent.getExtras().getString("contents");
         String txt_publisher = intent.getExtras().getString("publisher");
         String txt_selectedCategory = intent.getExtras().getString("selectedCategory");
@@ -82,7 +78,6 @@ public class ListDetailActivity extends AppCompatActivity {
         participants = intent.getExtras().getStringArrayList("participants");
         posts_id = intent.getExtras().getString("posts_id");
 
-        DocumentReference postRef = db.collection("Posts").document(posts_id);
 
         //위에서 받아온 내용 각각의 textview에 setText
         title.setText(txt_title);
@@ -102,18 +97,21 @@ public class ListDetailActivity extends AppCompatActivity {
             }
 
 
-            System.out.println("join 누르기 전 호출: isJoined = " + isJoined);
-            //참여하기 버튼 클릭
-            btn_join = findViewById(R.id.btn_join);
-            btn_join.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "작성자"+txt_publisher);
-                    if (txt_publisher != user.getUid()) {
-                        joinIn(user.getUid()); //참여자의 uid
-                    } else {
-                        startToast("내가 작성한 글입니다!");
-                    }
+        //participants 리스트에 있으면 joined 를 true로 바꾸기
+        if(participants.contains(user.getUid())){
+            isJoined = true;
+        }
+
+        //참여하기 버튼 클릭
+        btn_join = findViewById(R.id.btn_join);
+        btn_join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(txt_publisher!=user.getUid()) {
+                    joinIn(user.getUid()); //참여자의 uid
+                }else{
+                    startToast("내가 작성한 글입니다!");
+
 
                 }
             });
@@ -147,8 +145,8 @@ public class ListDetailActivity extends AppCompatActivity {
 
     private void joinIn(String uid) {
         // 현재 게시글의 id : posts_id
-        DocumentReference postRef = db.collection("Posts").document(posts_id);
-
+        
+      postRef = db.collection("Posts").document(posts_id);
 
         Intent intent = getIntent();
         if(int_numOfRecruits != int_curRecruits) {
@@ -162,10 +160,10 @@ public class ListDetailActivity extends AppCompatActivity {
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
                 participants.add(uid); // 참여자에 추가
-                System.out.println("participants : "+ participants);
-                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
 
-                ++int_curRecruits;
+
+                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
+                ++int_curRecruits; //내부에서 1 추가
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
                 if(int_numOfRecruits == int_curRecruits) {
@@ -182,10 +180,6 @@ public class ListDetailActivity extends AppCompatActivity {
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
 
             }
-            System.out.println("****************************");
-            System.out.println("participants: "+ participants);
-            System.out.println("participants.contains(uid) : "+ participants.contains(uid));
-
         }
 
         else{
