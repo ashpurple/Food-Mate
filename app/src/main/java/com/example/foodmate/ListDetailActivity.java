@@ -9,29 +9,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodmate.pushNoti.SendMessage;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -47,7 +35,6 @@ public class ListDetailActivity extends AppCompatActivity {
     boolean isJoined = false;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +48,13 @@ public class ListDetailActivity extends AppCompatActivity {
         ImageButton user_menu = (ImageButton) findViewById(R.id.user_menu);
         TextView contents = (TextView) findViewById(R.id.contents);
         ImageButton comment = (ImageButton) findViewById(R.id.comment);
-        //        TextView num_recruit = (TextView)findViewById(R.id.num_recruit);
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
-
         Button btn_join = findViewById(R.id.btn_join);
-
-
+        TextView host_comment = findViewById(R.id.host_comment);
 
         String txt_title = intent.getExtras().getString("title");
-        //String txt_nickname = intent.getExtras().getString("nickname");
-        String txt_nickname = "익명";
+        String txt_nickname = intent.getExtras().getString("nickname");
         String txt_contents = intent.getExtras().getString("contents");
         String txt_publisher = intent.getExtras().getString("publisher");
         String txt_selectedCategory = intent.getExtras().getString("selectedCategory");
@@ -93,22 +76,21 @@ public class ListDetailActivity extends AppCompatActivity {
         status.setText(txt_status);
         peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-        System.out.println("txt_publisher = "+txt_publisher);
-        System.out.println("user.getUid = "+user.getUid());
-        if(txt_status.equals("recruiting")) { // 상태가 모집중 이라면
+        System.out.println("txt_publisher = " + txt_publisher);
+        System.out.println("user.getUid = " + user.getUid());
+
+        if (txt_status.equals("recruiting")) { // 상태가 모집중 이라면
             //participants 리스트에 있으면 joined 를 true로 바꾸기
             if (participants.contains(user.getUid())) {
                 isJoined = true;
             }
 
 
-            System.out.println("join 누르기 전 호출: isJoined = " + isJoined);
             //참여하기 버튼 클릭
             btn_join = findViewById(R.id.btn_join);
             btn_join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "작성자"+txt_publisher);
                     if (txt_publisher != user.getUid()) {
                         joinIn(user.getUid()); //참여자의 uid
                     } else {
@@ -117,29 +99,27 @@ public class ListDetailActivity extends AppCompatActivity {
 
                 }
             });
-        }
-        else if(txt_status.equals("recruited")){ // 상태가 모집완료라면
-            if(!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
+        } else if (txt_status.equals("recruited")) { // 상태가 모집완료라면
+            if (!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
                 btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
-            }
-            else { // 작성자라면
+            } else { // 작성자라면
                 btn_join.setText("배달 완료");
+                host_comment.setVisibility(View.VISIBLE); // 호스트 코멘트창 open
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        String hostComment=host_comment.getText().toString();
                         postRef.update("status", "delivered");//파이어스토어에서 status 업데이트
                         // 푸시알림
                         String msgTitle = "'" + txt_title + "' 게시물 배달 완료 알림";
-                        String msgContent = "배달음식이 배달되었습니다!";
+                        String msgContent = hostComment;
                         SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
                         startToast("참여자들에게 배달 완료 푸시 알림을 보냈습니다.");
                     }
                 });
             }
 
-        }
-        else{
+        } else {
             btn_join.setVisibility(View.INVISIBLE);
         }
 
@@ -148,47 +128,41 @@ public class ListDetailActivity extends AppCompatActivity {
     private void joinIn(String uid) {
         // 현재 게시글의 id : posts_id
         DocumentReference postRef = db.collection("Posts").document(posts_id);
-
+        postRef = db.collection("Posts").document(posts_id);
 
         Intent intent = getIntent();
-        if(int_numOfRecruits != int_curRecruits) {
+        if (int_numOfRecruits != int_curRecruits) {
 
 
-            if(isJoined){
+            if (isJoined) {
                 startToast("이미 참여한 글입니다.");
-            }else{
+            } else {
                 postRef.update("participants", FieldValue.arrayUnion(uid));//파이어스토어 participants에 참여자 uid 추가
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
                 participants.add(uid); // 참여자에 추가
-                System.out.println("participants : "+ participants);
-                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
 
-                ++int_curRecruits;
+
+                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
+                ++int_curRecruits; //내부에서 1 추가
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-                if(int_numOfRecruits == int_curRecruits) {
+                if (int_numOfRecruits == int_curRecruits) {
                     postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
                     status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
                     // 모집완료 알림
                     String title = intent.getExtras().getString("title");
                     int number = intent.getExtras().getInt("numOfRecruits");
-                    String msgTitle="'"+title+"' 게시물 모집완료 알림";
-                    String msgContent=number+"명 모집이 완료되었습니다!";
-                    SendMessage sendMessage = new SendMessage(participants,msgTitle,msgContent);
+                    String msgTitle = "'" + title + "' 게시물 모집완료 알림";
+                    String msgContent = number + "명 모집이 완료되었습니다!";
+                    SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
                 }
 
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
 
             }
-            System.out.println("****************************");
-            System.out.println("participants: "+ participants);
-            System.out.println("participants.contains(uid) : "+ participants.contains(uid));
-
-        }
-
-        else{
+        } else {
             postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
             status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
             startToast("모집이 완료된 글입니다.");
@@ -197,7 +171,7 @@ public class ListDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 

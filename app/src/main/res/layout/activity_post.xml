@@ -130,14 +130,15 @@
                 android:src="@drawable/outline_sms_24" />
 
             <TextView
-                android:id="@+id/num_comment"
+                android:id="@+id/host_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_join"

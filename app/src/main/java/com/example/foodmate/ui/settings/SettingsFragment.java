@@ -2,6 +2,7 @@ package com.example.foodmate.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,27 @@ import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.foodmate.ListActivity;
 import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
 import com.example.foodmate.ui.recruiting.RecruitingViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.content.ContentValues.TAG;
 
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
+    DocumentReference docRef = db.collection("Users").document(users.getUid());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +55,27 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        TextView nickname = root.findViewById(R.id.user_nickname);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        String txt_nickname = document.getData().get("nickname").toString();
+                        nickname.setText(txt_nickname);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+
+                }
+            }
+        });
+
+
         Button btn_logout = (Button) root.findViewById(R.id.btn_logout);
+        Button btn_history = (Button) root.findViewById(R.id.btn_history);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,12 +85,26 @@ public class SettingsFragment extends Fragment {
                 startMyActivity(LoginActivity.class);
             }
         });
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String status="delivered";
+                int flag=2;
+                startListActivity(ListActivity.class,flag,status);
+            }
+        });
 
         return root;
     }
 
     private void startMyActivity(Class c){
         Intent intent = new Intent(getActivity(),c);
+        startActivity(intent);
+    }
+    private void startListActivity(Class c,int flag,String status){
+        Intent intent = new Intent(getActivity(),c);
+        intent.putExtra("Status",status);
+        intent.putExtra("Flag",flag);
         startActivity(intent);
     }
 

@@ -26,12 +26,21 @@
         android:text="Logout" />
 
     <Button
-        android:id="@+id/btn_changeNickname"
+        android:id="@+id/btn_history"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@color/main_orange"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:text="Change Nickname" />
+        android:background="@color/main_orange"
+        android:text="History" />
+
+    <TextView
+        android:id="@+id/user_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
+        android:textColor="@color/black"
+        android:text="nickname" />
 
 </RelativeLayout>
