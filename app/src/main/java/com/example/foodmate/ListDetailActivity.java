@@ -47,7 +47,6 @@ public class ListDetailActivity extends AppCompatActivity {
     boolean isJoined = false;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +60,13 @@ public class ListDetailActivity extends AppCompatActivity {
         ImageButton user_menu = (ImageButton) findViewById(R.id.user_menu);
         TextView contents = (TextView) findViewById(R.id.contents);
         ImageButton comment = (ImageButton) findViewById(R.id.comment);
-        //        TextView num_recruit = (TextView)findViewById(R.id.num_recruit);
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
 
         Button btn_join = findViewById(R.id.btn_join);
 
-
-
         String txt_title = intent.getExtras().getString("title");
-        //String txt_nickname = intent.getExtras().getString("nickname");
-        String txt_nickname = "익명";
+        String txt_nickname = intent.getExtras().getString("nickname");
         String txt_contents = intent.getExtras().getString("contents");
         String txt_publisher = intent.getExtras().getString("publisher");
         String txt_selectedCategory = intent.getExtras().getString("selectedCategory");
@@ -93,16 +88,16 @@ public class ListDetailActivity extends AppCompatActivity {
         status.setText(txt_status);
         peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-        System.out.println("txt_publisher = "+txt_publisher);
-        System.out.println("user.getUid = "+user.getUid());
-        if(txt_status.equals("recruiting")) { // 상태가 모집중 이라면
+        System.out.println("txt_publisher = " + txt_publisher);
+        System.out.println("user.getUid = " + user.getUid());
+
+        if (txt_status.equals("recruiting")) { // 상태가 모집중 이라면
             //participants 리스트에 있으면 joined 를 true로 바꾸기
             if (participants.contains(user.getUid())) {
                 isJoined = true;
             }
 
 
-            System.out.println("join 누르기 전 호출: isJoined = " + isJoined);
             //참여하기 버튼 클릭
             btn_join = findViewById(R.id.btn_join);
             btn_join.setOnClickListener(new View.OnClickListener() {
@@ -116,12 +111,10 @@ public class ListDetailActivity extends AppCompatActivity {
 
                 }
             });
-        }
-        else if(txt_status.equals("recruited")){ // 상태가 모집완료라면
-            if(!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
+        } else if (txt_status.equals("recruited")) { // 상태가 모집완료라면
+            if (!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
                 btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
-            }
-            else { // 작성자라면
+            } else { // 작성자라면
                 btn_join.setText("배달 완료");
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -137,8 +130,7 @@ public class ListDetailActivity extends AppCompatActivity {
                 });
             }
 
-        }
-        else{
+        } else {
             btn_join.setVisibility(View.INVISIBLE);
         }
 
@@ -147,47 +139,41 @@ public class ListDetailActivity extends AppCompatActivity {
     private void joinIn(String uid) {
         // 현재 게시글의 id : posts_id
         DocumentReference postRef = db.collection("Posts").document(posts_id);
-
+        postRef = db.collection("Posts").document(posts_id);
 
         Intent intent = getIntent();
-        if(int_numOfRecruits != int_curRecruits) {
+        if (int_numOfRecruits != int_curRecruits) {
 
 
-            if(isJoined){
+            if (isJoined) {
                 startToast("이미 참여한 글입니다.");
-            }else{
+            } else {
                 postRef.update("participants", FieldValue.arrayUnion(uid));//파이어스토어 participants에 참여자 uid 추가
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
                 participants.add(uid); // 참여자에 추가
-                System.out.println("participants : "+ participants);
-                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
 
-                ++int_curRecruits;
+
+                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
+                ++int_curRecruits; //내부에서 1 추가
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-                if(int_numOfRecruits == int_curRecruits) {
+                if (int_numOfRecruits == int_curRecruits) {
                     postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
                     status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
                     // 모집완료 알림
                     String title = intent.getExtras().getString("title");
                     int number = intent.getExtras().getInt("numOfRecruits");
-                    String msgTitle="'"+title+"' 게시물 모집완료 알림";
-                    String msgContent=number+"명 모집이 완료되었습니다!";
-                    SendMessage sendMessage = new SendMessage(participants,msgTitle,msgContent);
+                    String msgTitle = "'" + title + "' 게시물 모집완료 알림";
+                    String msgContent = number + "명 모집이 완료되었습니다!";
+                    SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
                 }
 
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
 
             }
-            System.out.println("****************************");
-            System.out.println("participants: "+ participants);
-            System.out.println("participants.contains(uid) : "+ participants.contains(uid));
-
-        }
-
-        else{
+        } else {
             postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
             status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
             startToast("모집이 완료된 글입니다.");
@@ -196,7 +182,7 @@ public class ListDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 

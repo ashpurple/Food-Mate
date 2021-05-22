@@ -4,6 +4,7 @@ package com.example.foodmate;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -52,6 +54,7 @@ public class WritingActivity extends AppCompatActivity {
     EditText maximum;
     String[] foodCategory;
     String selectedCategory;
+    Handler handler = new Handler();
 
 
     @Override
@@ -107,7 +110,6 @@ public class WritingActivity extends AppCompatActivity {
 
 
 
-
     //포스트 업로드 전 체크
     private void postUpdate(){
         String title = ((EditText)findViewById(R.id.et_title)).getText().toString();
@@ -122,10 +124,7 @@ public class WritingActivity extends AppCompatActivity {
         }
         if(title.length() > 0 && contents.length() > 0){
             user = FirebaseAuth.getInstance().getCurrentUser();
-//            nickname 얻어오기
-//            User usernick = new User();
-//            nickname = usernick.getNick();
-//            System.out.println("User에서 얻어온 유저 닉네임: "+nickname); //지금은 null임
+
 
             nickname = "익명";
             String status="recruiting";
@@ -135,15 +134,39 @@ public class WritingActivity extends AppCompatActivity {
             participants.add(publisher); //글 작성자의 uid를 참여자 배열에 추가
             String postId = "tempID";
 
-//            Timestamp timestamp_createdAt = writeInfoList.get(position).getCreatedAt(); //파이어베이스 타임스탬프 받아오기
-//            Date date_createdAt = timestamp_createdAt.toDate();//Date형식으로 변경
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
-//            String createdAt = formatter.format(date_createdAt).toString();
-//
+            //Users 에서 유저닉네임 받아오기
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
+            DocumentReference docRef = db.collection("Users").document(users.getUid());
 
-            WriteInfo writeInfo = new WriteInfo(postId, nickname, title, contents, publisher, selectedCategory, numOfRecruit,  created_at, status, curRecruits, participants);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            nickname = document.getData().get("nickname").toString();
 
-            postUploader(writeInfo);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+
+                    }
+                }
+            });
+
+
+            //user nickname 받아오는 시간을 줘야함
+            handler.postDelayed(new Runnable(){
+                public void run(){
+                    startToast("업로드 중입니다...");
+                    WriteInfo writeInfo = new WriteInfo(postId, nickname, title, contents, publisher,
+                            selectedCategory, numOfRecruit,  created_at, status, curRecruits, participants);
+                    postUploader(writeInfo);
+                }
+            }, 1000); // 1sec
+
 
 
         }else{
@@ -157,26 +180,6 @@ public class WritingActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        String user_id = user.getUid();//사용자 uid
-        db.collection("Users")
-                .whereEqualTo("uid", user_id)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                nickname = document.getData().get("nickname").toString();
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-
-                    }
-                });
-
-
         db.collection("Posts").add(writeInfo)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -186,17 +189,10 @@ public class WritingActivity extends AppCompatActivity {
                         startToast("등록되었습니다!");
 
 
-
                         //작성한 글 바로 보이기
                         Intent intent = new Intent(getApplicationContext(), PostActivity.class);
                         intent.putExtra("posts_id", posts_id);//포스트 액티비티에 문서 id 전달
                         startActivityForResult(intent, UPLOAD_POST);
-
-//                        //포스트액티비티 말고 ListDetailActivity로 바로 가면 어때
-//                        Intent intent = new Intent(getApplicationContext(), ListDetailActivity.class);
-//                        intent.putExtra("posts_id", posts_id);//포스트 액티비티에 문서 id 전달
-//                        startActivityForResult(intent, UPLOAD_POST);
-
 
                         finish();
                     }
