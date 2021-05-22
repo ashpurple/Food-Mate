@@ -47,7 +47,6 @@ public class ListDetailActivity extends AppCompatActivity {
     boolean isJoined = false;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +77,7 @@ public class ListDetailActivity extends AppCompatActivity {
         participants = intent.getExtras().getStringArrayList("participants");
         posts_id = intent.getExtras().getString("posts_id");
 
+        DocumentReference postRef = db.collection("Posts").document(posts_id);
 
         //위에서 받아온 내용 각각의 textview에 setText
         title.setText(txt_title);
@@ -88,39 +88,34 @@ public class ListDetailActivity extends AppCompatActivity {
         status.setText(txt_status);
         peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-        System.out.println("txt_publisher = "+txt_publisher);
-        System.out.println("user.getUid = "+user.getUid());
-        if(txt_status.equals("recruiting")) { // 상태가 모집중 이라면
+        System.out.println("txt_publisher = " + txt_publisher);
+        System.out.println("user.getUid = " + user.getUid());
+
+        if (txt_status.equals("recruiting")) { // 상태가 모집중 이라면
             //participants 리스트에 있으면 joined 를 true로 바꾸기
             if (participants.contains(user.getUid())) {
                 isJoined = true;
             }
 
 
-        //participants 리스트에 있으면 joined 를 true로 바꾸기
-        if(participants.contains(user.getUid())){
-            isJoined = true;
-        }
-
-        //참여하기 버튼 클릭
-        btn_join = findViewById(R.id.btn_join);
-        btn_join.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(txt_publisher!=user.getUid()) {
-                    joinIn(user.getUid()); //참여자의 uid
-                }else{
-                    startToast("내가 작성한 글입니다!");
-
+            //참여하기 버튼 클릭
+            btn_join = findViewById(R.id.btn_join);
+            btn_join.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "작성자" + txt_publisher);
+                    if (txt_publisher != user.getUid()) {
+                        joinIn(user.getUid()); //참여자의 uid
+                    } else {
+                        startToast("내가 작성한 글입니다!");
+                    }
 
                 }
             });
-        }
-        else if(txt_status.equals("recruited")){ // 상태가 모집완료라면
-            if(!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
+        } else if (txt_status.equals("recruited")) { // 상태가 모집완료라면
+            if (!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
                 btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
-            }
-            else { // 작성자라면
+            } else { // 작성자라면
                 btn_join.setText("배달 완료");
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -136,8 +131,7 @@ public class ListDetailActivity extends AppCompatActivity {
                 });
             }
 
-        }
-        else{
+        } else {
             btn_join.setVisibility(View.INVISIBLE);
         }
 
@@ -145,16 +139,16 @@ public class ListDetailActivity extends AppCompatActivity {
 
     private void joinIn(String uid) {
         // 현재 게시글의 id : posts_id
-        
-      postRef = db.collection("Posts").document(posts_id);
+        DocumentReference postRef = db.collection("Posts").document(posts_id);
+        postRef = db.collection("Posts").document(posts_id);
 
         Intent intent = getIntent();
-        if(int_numOfRecruits != int_curRecruits) {
+        if (int_numOfRecruits != int_curRecruits) {
 
 
-            if(isJoined){
+            if (isJoined) {
                 startToast("이미 참여한 글입니다.");
-            }else{
+            } else {
                 postRef.update("participants", FieldValue.arrayUnion(uid));//파이어스토어 participants에 참여자 uid 추가
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
@@ -166,23 +160,21 @@ public class ListDetailActivity extends AppCompatActivity {
                 ++int_curRecruits; //내부에서 1 추가
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-                if(int_numOfRecruits == int_curRecruits) {
+                if (int_numOfRecruits == int_curRecruits) {
                     postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
                     status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
                     // 모집완료 알림
                     String title = intent.getExtras().getString("title");
                     int number = intent.getExtras().getInt("numOfRecruits");
-                    String msgTitle="'"+title+"' 게시물 모집완료 알림";
-                    String msgContent=number+"명 모집이 완료되었습니다!";
-                    SendMessage sendMessage = new SendMessage(participants,msgTitle,msgContent);
+                    String msgTitle = "'" + title + "' 게시물 모집완료 알림";
+                    String msgContent = number + "명 모집이 완료되었습니다!";
+                    SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
                 }
 
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
 
             }
-        }
-
-        else{
+        } else {
             postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
             status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
             startToast("모집이 완료된 글입니다.");
@@ -191,7 +183,7 @@ public class ListDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 
