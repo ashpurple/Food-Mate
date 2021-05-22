@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.foodmate.pushNoti.SendMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -133,6 +135,7 @@ public class ListDetailActivity extends AppCompatActivity {
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
+                participants.add(uid); // 참여자에 추가
                 System.out.println("participants : "+ participants);
                 postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
 
@@ -142,6 +145,12 @@ public class ListDetailActivity extends AppCompatActivity {
                 if(int_numOfRecruits == int_curRecruits) {
                     postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
                     status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
+                    // 모집완료 알림
+                    String title = intent.getExtras().getString("title");
+                    int number = intent.getExtras().getInt("numOfRecruits");
+                    String msgTitle="'"+title+"' 게시물 모집완료 알림";
+                    String msgContent=number+"명 모집이 완료되었습니다!";
+                    SendMessage sendMessage = new SendMessage(participants,msgTitle,msgContent);
                 }
 
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
