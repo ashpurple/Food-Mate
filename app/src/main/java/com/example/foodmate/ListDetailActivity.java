@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ public class ListDetailActivity extends AppCompatActivity {
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
         Button btn_join = findViewById(R.id.btn_join);
-        TextView host_comment = findViewById(R.id.host_comment);
+        EditText host_comment = findViewById(R.id.host_comment);
 
         String txt_title = intent.getExtras().getString("title");
         String txt_nickname = intent.getExtras().getString("nickname");
