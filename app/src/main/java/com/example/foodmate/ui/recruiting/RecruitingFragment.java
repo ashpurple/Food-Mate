@@ -92,5 +92,6 @@ public class RecruitingFragment extends Fragment {
         intent.putExtra("Status",status);
         intent.putExtra("Category",category);
         startActivity(intent);
+
     }
 }

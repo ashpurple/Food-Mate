@@ -28,6 +28,8 @@ public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     private FirebaseAuth mAuth;
     public static Context mContext;
+    ArrayList<String> participants_list;
+    String temp_title;
 
     List<WriteInfo> writeInfoList = new ArrayList<>();
     RecyclerView mRecyclerView;
@@ -45,34 +47,36 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         mContext = this;
 
-        //init firestore
-        db = FirebaseFirestore.getInstance();
 
 
-        //initialize views
-        mRecyclerView = findViewById(R.id.recycler_view);
-        //set recycler view properties
-        mRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-
-        Intent intent = getIntent();
-
-        //show data in recyclerview
-        int flag=intent.getExtras().getInt("Flag");
-        if (flag==0){ // recruiting
-            String status=intent.getExtras().getString("Status");
-            String category=intent.getExtras().getString("Category");
-            String[] result={status,category};
-            showData(flag,result);
-            startToast(status+" Posts");
-        }
-        else if(flag==1){
-            String status=intent.getExtras().getString("Status");
-            String[] result={status};
-            showData(flag,result);
-            startToast(status+" Posts");
-        }
+//        //init firestore
+//        db = FirebaseFirestore.getInstance();
+//
+//
+//        //initialize views
+//        mRecyclerView = findViewById(R.id.recycler_view);
+//        //set recycler view properties
+//        mRecyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(this);
+//        mRecyclerView.setLayoutManager(layoutManager);
+//
+//        Intent intent = getIntent();
+//
+//        //show data in recyclerview
+//        int flag=intent.getExtras().getInt("Flag");
+//        if (flag==0){ // recruiting
+//            String status=intent.getExtras().getString("Status");
+//            String category=intent.getExtras().getString("Category");
+//            String[] result={status,category};
+//            showData(flag,result);
+//            startToast(status+" Posts");
+//        }
+//        else if(flag==1){
+//            String status=intent.getExtras().getString("Status");
+//            String[] result={status};
+//            showData(flag,result);
+//            startToast(status+" Posts");
+//        }
 
 
     }
@@ -89,6 +93,11 @@ public class ListActivity extends AppCompatActivity {
                         //show data
                         for (DocumentSnapshot doc : task.getResult()) {
 
+                            temp_title = doc.getString("title");
+                            participants_list=(ArrayList<String>) doc.get("participants");
+                            System.out.println("호출 showData, title: " + temp_title);
+                            System.out.println("호출 paticipants list: " + participants_list);
+                            System.out.println("publisher : " + doc.getString("publisher"));
                             WriteInfo writeInfo = new WriteInfo(
                                     doc.getString("posts_id"),
                                     doc.getString("nickname"),
@@ -131,6 +140,65 @@ public class ListActivity extends AppCompatActivity {
                 });
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_list);
+        mContext = this;
+        System.out.println("onResuem 호출됨!!!");
+
+        //init firestore
+        db = FirebaseFirestore.getInstance();
+
+        writeInfoList.clear();
+        System.out.println("호출: clear 실행됨");
+        //initialize views
+        mRecyclerView = findViewById(R.id.recycler_view);
+
+//        adapter.notifyDataSetChanged();
+
+        //set recycler view properties
+        mRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        Intent intent = getIntent();
+
+        //show data in recyclerview
+        int flag=intent.getExtras().getInt("Flag");
+        if (flag==0){ // recruiting
+            String status=intent.getExtras().getString("Status");
+            String category=intent.getExtras().getString("Category");
+            String[] result={status,category};
+            System.out.println("onResuem에서 showdata 호출됨!!!");
+            showData(flag,result);
+            startToast(status+" Posts");
+        }
+        else if(flag==1){
+            String status=intent.getExtras().getString("Status");
+            String[] result={status};
+            System.out.println("onResuem에서 showdata 호출됨!!!");
+            showData(flag,result);
+            startToast(status+" Posts");
+        }
+
+
+    }
+
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        setContentView(R.layout.activity_list);
+//        mContext = this;
+//        System.out.println("onResuem 호출됨!!! 그리고 이제 update 할거임");
+//
+////        adapter.notifyDataSetChanged();
+////        System.out.println("호출: adapter.notifyDataSetChanged(); 완료");
+//        data.clear();
+//        adapter.notifyDataSetChanged();
+//    }
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
