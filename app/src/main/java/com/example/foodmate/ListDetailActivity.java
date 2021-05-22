@@ -59,17 +59,13 @@ public class ListDetailActivity extends AppCompatActivity {
         ImageButton user_menu = (ImageButton) findViewById(R.id.user_menu);
         TextView contents = (TextView) findViewById(R.id.contents);
         ImageButton comment = (ImageButton) findViewById(R.id.comment);
-        //        TextView num_recruit = (TextView)findViewById(R.id.num_recruit);
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
 
         Button btn_join = findViewById(R.id.btn_join);
 
-
-
         String txt_title = intent.getExtras().getString("title");
-        //String txt_nickname = intent.getExtras().getString("nickname");
-        String txt_nickname = "익명";
+        String txt_nickname = intent.getExtras().getString("nickname");
         String txt_contents = intent.getExtras().getString("contents");
         String txt_publisher = intent.getExtras().getString("publisher");
         String txt_selectedCategory = intent.getExtras().getString("selectedCategory");
@@ -79,7 +75,6 @@ public class ListDetailActivity extends AppCompatActivity {
         int_curRecruits = intent.getExtras().getInt("curRecruits");
         participants = intent.getExtras().getStringArrayList("participants");
         posts_id = intent.getExtras().getString("posts_id");
-
 
 
         //위에서 받아온 내용 각각의 textview에 setText
@@ -96,12 +91,9 @@ public class ListDetailActivity extends AppCompatActivity {
 
         //participants 리스트에 있으면 joined 를 true로 바꾸기
         if(participants.contains(user.getUid())){
-            System.out.println("리스트에 있어서 joined true로 바꿈 ");
             isJoined = true;
         }
 
-
-        System.out.println("join 누르기 전 호출: isJoined = "+isJoined);
         //참여하기 버튼 클릭
         btn_join = findViewById(R.id.btn_join);
         btn_join.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +114,6 @@ public class ListDetailActivity extends AppCompatActivity {
         // 현재 게시글의 id : posts_id
         DocumentReference postRef = db.collection("Posts").document(posts_id);
 
-
         Intent intent = getIntent();
         if(int_numOfRecruits != int_curRecruits) {
 
@@ -134,10 +125,8 @@ public class ListDetailActivity extends AppCompatActivity {
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
-                System.out.println("participants : "+ participants);
                 postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
-
-                ++int_curRecruits;
+                ++int_curRecruits; //내부에서 1 추가
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
                 if(int_numOfRecruits == int_curRecruits) {
@@ -148,10 +137,6 @@ public class ListDetailActivity extends AppCompatActivity {
                 Log.d(TAG, "DocumentSnapshot successfully updated!");
 
             }
-            System.out.println("****************************");
-            System.out.println("participants: "+ participants);
-            System.out.println("participants.contains(uid) : "+ participants.contains(uid));
-
         }
 
         else{

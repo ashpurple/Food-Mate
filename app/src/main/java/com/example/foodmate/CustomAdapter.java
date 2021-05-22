@@ -47,7 +47,7 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("nickname",writeInfoList.get(position).getNickname());
                 intent.putExtra("title",writeInfoList.get(position).getTitle());
                 intent.putExtra("contents",writeInfoList.get(position).getContents());
-                intent.putExtra("uid(publisher)",writeInfoList.get(position).getPublisher());
+                intent.putExtra("publisher",writeInfoList.get(position).getPublisher());
                 intent.putExtra("selectedCategory",writeInfoList.get(position).getSelectedCategory());
                 intent.putExtra("numOfRecruits",writeInfoList.get(position).getNumOfRecruits());
                 intent.putExtra("status",writeInfoList.get(position).getStatus());
@@ -79,9 +79,8 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         //bind views /set data
         viewHolder.vTitle.setText(writeInfoList.get(i).getTitle());
         viewHolder.vContents.setText(writeInfoList.get(i).getContents());
-//        viewHolder.vNickname.setText(writeInfoList.get(i).getNickname());
-//
-//        viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
+        viewHolder.vNickname.setText(writeInfoList.get(i).getNickname());
+       viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
 
 
     }
