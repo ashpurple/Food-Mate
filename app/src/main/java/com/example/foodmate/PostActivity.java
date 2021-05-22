@@ -3,9 +3,7 @@ package com.example.foodmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -69,7 +66,7 @@ public class PostActivity extends AppCompatActivity {
         ImageButton user_menu = (ImageButton)findViewById(R.id.user_menu);
         TextView contents = (TextView)findViewById(R.id.contents);
         ImageButton comment = (ImageButton)findViewById(R.id.comment);
-        TextView num_comment = (TextView)findViewById(R.id.num_comment);
+        TextView num_comment = (TextView)findViewById(R.id.host_comment);
         TextView status = (TextView)findViewById(R.id.status);
         TextView peopleNum = (TextView)findViewById(R.id.peopleNum);
 

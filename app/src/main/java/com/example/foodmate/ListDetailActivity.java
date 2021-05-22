@@ -9,29 +9,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodmate.pushNoti.SendMessage;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -62,8 +50,8 @@ public class ListDetailActivity extends AppCompatActivity {
         ImageButton comment = (ImageButton) findViewById(R.id.comment);
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
-
         Button btn_join = findViewById(R.id.btn_join);
+        TextView host_comment = findViewById(R.id.host_comment);
 
         String txt_title = intent.getExtras().getString("title");
         String txt_nickname = intent.getExtras().getString("nickname");
@@ -116,14 +104,15 @@ public class ListDetailActivity extends AppCompatActivity {
                 btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
             } else { // 작성자라면
                 btn_join.setText("배달 완료");
+                host_comment.setVisibility(View.VISIBLE); // 호스트 코멘트창 open
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        String hostComment=host_comment.getText().toString();
                         postRef.update("status", "delivered");//파이어스토어에서 status 업데이트
                         // 푸시알림
                         String msgTitle = "'" + txt_title + "' 게시물 배달 완료 알림";
-                        String msgContent = "배달음식이 배달되었습니다!";
+                        String msgContent = hostComment;
                         SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
                         startToast("참여자들에게 배달 완료 푸시 알림을 보냈습니다.");
                     }

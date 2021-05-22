@@ -55,7 +55,6 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-
         TextView nickname = root.findViewById(R.id.user_nickname);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
