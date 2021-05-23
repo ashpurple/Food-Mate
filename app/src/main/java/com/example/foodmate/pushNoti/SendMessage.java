@@ -25,10 +25,10 @@ public class SendMessage {
         this.uidList=uidList;
         this.title=title;
         this.message=message;
-        store();// 토큰 list 저장
+        store();// store token
     }
 
-    private void store() {// Users 에서 TokenList 추출
+    private void store() {// extract token list to Users
 
         db=FirebaseFirestore.getInstance();
         db.collection("Users")
@@ -48,7 +48,7 @@ public class SendMessage {
                                     Log.d(TAG, doc.getId() + " ===> " + userToken.getToken());
                                 }
                             }
-                            send();
+                            send(); // send to token user
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

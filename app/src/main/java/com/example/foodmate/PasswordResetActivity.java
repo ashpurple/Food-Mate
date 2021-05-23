@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,13 +19,10 @@ public class PasswordResetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_reset);
-
         mAuth=FirebaseAuth.getInstance();
-
         findViewById(R.id.btn_signup).setOnClickListener(onClickListener);
         findViewById(R.id.text_login).setOnClickListener(onClickListener);
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -47,10 +42,8 @@ public class PasswordResetActivity extends AppCompatActivity {
         }
 
     };
-
     private void send(){
         String email=((EditText)findViewById(R.id.edit_email)).getText().toString();
-
         if(email.length()>0) {
 
             mAuth.sendPasswordResetEmail(email)

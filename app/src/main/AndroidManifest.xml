@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".History"></activity>
 
         <service
             android:name=".pushNoti.FCMservice"

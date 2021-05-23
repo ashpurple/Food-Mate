@@ -6,20 +6,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,12 +31,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         mAuth=FirebaseAuth.getInstance();
 
-
         findViewById(R.id.btn_sendEmail).setOnClickListener(onClickListener);
         findViewById(R.id.text_login).setOnClickListener(onClickListener);
-
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -53,19 +46,15 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     View.OnClickListener onClickListener=(v)->{
-
         switch(v.getId()){
             case R.id.btn_sendEmail:
-                Log.e("Sign Up","회원가입 클릭");
                 signUp();
                 break;
             case R.id.text_login:
                 startLoginActivity();
                 break;
         }
-
     };
-
 
     private void signUp(){
         String email=((EditText)findViewById(R.id.edit_email)).getText().toString();
@@ -73,24 +62,20 @@ public class SignUpActivity extends AppCompatActivity {
         String password=((EditText)findViewById(R.id.edit_password)).getText().toString();
         String passwordCheck=((EditText)findViewById(R.id.edit_confirmPassword)).getText().toString();
 
-
-        /* DB */
-        String key = email.split("@")[0];   //key에 @는 저장이 안되므로 앞에 ID만 분리 (k=id)
+        /* email parsing */
+        String key = email.split("@")[0];   // extract id
         String domain = email.split("@")[1];
 
-
         if(email.length()>0 && password.length()>0 && passwordCheck.length()>0 && nickName.length()>0) {
-            if (domain.equals("gachon.ac.kr")){// 학교 주소 확인
-                if (password.equals(passwordCheck)) { // 비밀번호 체크
+            if (domain.equals("gachon.ac.kr")){// check university domain
+                if (password.equals(passwordCheck)) { // check password confirmation
                     mAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(this, (task) -> {
-                                /* 이메일 인증 */
+                                /* Send Email Verification */
                                 mAuth.getCurrentUser().sendEmailVerification()
                                         .addOnCompleteListener(this, (task2) -> {
-
                                             if(task2.isSuccessful()){
                                                 startToast("인증 메일이 전송되었습니다.");
-
                                             } else {
                                                 if (task2.getException() != null) {
                                                     startToast(task2.getException().toString());
@@ -111,10 +96,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                     }
                                                     // Get new FCM registration token
                                                     String token = task.getResult();
-                                                    // Log and toast
-                                                    Log.d("Token", token);
-                                                    // 토큰 저장
 
+                                                    // store to FireStore
                                                     Map<String, Object> users = new HashMap<>();
                                                     users.put("uid", uid);
                                                     users.put("token", token);
@@ -138,15 +121,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                             });
                                                 }
                                             });
-                                    // Store to Real Time Database
-                                    DatabaseReference userRef = User_Reference.userRef.child(key);
-                                    User newUser = new User(key, nickName);
-                                    userRef.setValue(newUser);
-
                                     startToast("회원가입에 성공하였습니다.\n이메일 인증을 완료해야만 로그인이 가능합니다");
                                     startLoginActivity();
-
-                                    //UI
                                 } else {
                                     if (task.getException() != null) {
                                         startToast(task.getException().toString());
@@ -169,11 +145,8 @@ public class SignUpActivity extends AppCompatActivity {
     private void startToast(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
-
     private void startLoginActivity(){
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
     }
-
-
 }
