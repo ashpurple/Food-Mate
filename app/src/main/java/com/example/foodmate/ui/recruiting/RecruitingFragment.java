@@ -18,7 +18,8 @@ import com.example.foodmate.R;
 import com.example.foodmate.WritingActivity;
 
 public class RecruitingFragment extends Fragment {
-    int flag=0;   // 0=recruiting, 1=recruited, 2=delivered
+    // Set status and flag value as "recruiting" states
+    int flag=0;   // 0 = recruiting, 1 = recruited, 2 = delivered
     String status="recruiting";
     String category;
 
@@ -40,7 +41,7 @@ public class RecruitingFragment extends Fragment {
         root.findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_korean).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_schoolfood).setOnClickListener(onClickListener);
-        root.findViewById(R.id.btn_Asianfood).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_Asian_European_food).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_fastfood).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_chinese).setOnClickListener(onClickListener);
 
@@ -66,8 +67,8 @@ public class RecruitingFragment extends Fragment {
                     category="분식";
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
-                case R.id.btn_Asianfood:
-                    category="치킨";
+                case R.id.btn_Asian_European_food:
+                    category="아시안 양식";
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
                 case R.id.btn_fastfood:
@@ -76,6 +77,10 @@ public class RecruitingFragment extends Fragment {
                     break;
                 case R.id.btn_chinese:
                     category="중식";
+                    startListActivity(ListActivity.class,flag,status,category);
+                    break;
+                case R.id.btn_Etc:
+                    category = "기타";
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
             }

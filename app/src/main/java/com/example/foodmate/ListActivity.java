@@ -3,7 +3,6 @@ package com.example.foodmate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,14 +23,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 
 public class ListActivity extends AppCompatActivity {
-    private static final String TAG = "ListActivity";
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
     public static Context mContext;
-    ArrayList<String> participants_list;
-    String temp_title;
 
     List<WriteInfo> writeInfoList = new ArrayList<>();
     RecyclerView mRecyclerView;
@@ -48,7 +43,6 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         mContext = this;
 
-
     }
 
     @Override
@@ -60,7 +54,7 @@ public class ListActivity extends AppCompatActivity {
     private void showData(int flag, String[] result) {
 
         db.collection("Posts")
-                .orderBy("createdAt", Query.Direction.DESCENDING) // createdAt을 기준으로 내림차순으로 보이기
+                .orderBy("createdAt", Query.Direction.DESCENDING) // show from the recent posts
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -68,7 +62,6 @@ public class ListActivity extends AppCompatActivity {
 
                         //show data
                         for (DocumentSnapshot doc : task.getResult()) {
-
 
                             WriteInfo writeInfo = new WriteInfo(
                                     doc.getString("posts_id"),
@@ -83,17 +76,17 @@ public class ListActivity extends AppCompatActivity {
                                     doc.getLong("curRecruits").intValue(),
                                     (ArrayList<String>) doc.get("participants"));
 
-                            if(flag==0){//recruiting
+                            if(flag==0){ // recruiting
                                 if(writeInfo.getStatus().equals(result[0])&&writeInfo.getSelectedCategory().equals(result[1])){
                                     writeInfoList.add(writeInfo);
                                 }
                             }
-                            else if(flag==1&&writeInfo.getParticipants().contains(mAuth.getUid())){//recruited
+                            else if(flag==1&&writeInfo.getParticipants().contains(mAuth.getUid())){ // recruited
                                 if(writeInfo.getStatus().equals(result[0])){
                                     writeInfoList.add(writeInfo);
                                 }
                             }
-                            else if(flag==2){
+                            else if(flag==2){ // settings
                                 if(writeInfo.getStatus().equals(result[0])&&writeInfo.getParticipants().contains(mAuth.getUid())){
                                     writeInfoList.add(writeInfo);
                                 }
@@ -143,19 +136,16 @@ public class ListActivity extends AppCompatActivity {
             String category=intent.getExtras().getString("Category");
             String[] result={status,category};
             showData(flag,result);
-            startToast(status+" Posts");
         }
-        else if(flag==1){
+        else if(flag==1){ // recruited
             String status=intent.getExtras().getString("Status");
             String[] result={status};
             showData(flag,result);
-            startToast(status+" Posts");
         }
-        else if(flag==2){
+        else if(flag==2){ // settings
             String status=intent.getExtras().getString("Status");
             String[] result={status};
             showData(flag,result);
-            startToast(status+" Posts");
         }
 
     }

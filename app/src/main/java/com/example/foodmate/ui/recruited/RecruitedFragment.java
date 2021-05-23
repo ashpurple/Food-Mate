@@ -2,13 +2,9 @@ package com.example.foodmate.ui.recruited;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +33,7 @@ public class RecruitedFragment extends Fragment {
             }
         });
 
+        // Set status and flag value as "recruited" states
         String status="recruited";
         int flag=1;
         startListActivity(ListActivity.class,flag,status);
