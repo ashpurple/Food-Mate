@@ -70,7 +70,7 @@ public class RecruitingFragment extends Fragment {
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
                 case R.id.btn_Asian_European_food:
-                    category="아시안 양식";
+                    category="아시안/양식";
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
                 case R.id.btn_fastfood:
