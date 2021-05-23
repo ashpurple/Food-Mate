@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EC926A">
+    android:background="#F8C0A7">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
 
             <TextView
                 android:id="@+id/categoryTextview"
@@ -31,30 +32,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="분류"
+                android:text="분류:"
                 android:textColor="@color/black"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="135dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FD470E"/>
 
             <TextView
                 android:id="@+id/status"
                 android:layout_width="114dp"
                 android:layout_height="match_parent"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/peopleNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textColor="@color/black"/>
 
         </LinearLayout>
@@ -101,7 +103,6 @@
                 android:id="@+id/user_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_baseline_more_vert_24" />
@@ -148,6 +149,7 @@
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:visibility="invisible"
+                android:textColorHint="#555353"
                 android:hint="참여자들에게 배달장소를 알려주세요"
                 />
 
@@ -157,7 +159,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="#F86C40"
-                android:paddingLeft="10dp"
                 android:text="참여"
                 android:textAlignment="center"
                 android:textColor="@color/black"

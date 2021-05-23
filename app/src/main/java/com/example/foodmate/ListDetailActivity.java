@@ -104,7 +104,7 @@ public class ListDetailActivity extends AppCompatActivity {
             if (!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
                 btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
             } else { // 작성자라면
-                btn_join.setText("배달 완료 푸시알림");
+                btn_join.setText("배달 완료");
                 host_comment.setVisibility(View.VISIBLE); // 호스트 코멘트창 open
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override
