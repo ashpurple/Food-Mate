@@ -189,7 +189,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="28dp"
                 android:layout_toLeftOf="@id/blank"
-                android:text="햄버거/치킨"
+                android:text="패스트푸드"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
