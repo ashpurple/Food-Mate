@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ public class ListDetailActivity extends AppCompatActivity {
         status = (TextView) findViewById(R.id.status);
         peopleNum = (TextView) findViewById(R.id.peopleNum);
         Button btn_join = findViewById(R.id.btn_join);
-        TextView host_comment = findViewById(R.id.host_comment);
+        EditText host_comment = findViewById(R.id.host_comment);
 
         String txt_title = intent.getExtras().getString("title");
         String txt_nickname = intent.getExtras().getString("nickname");
@@ -103,7 +104,7 @@ public class ListDetailActivity extends AppCompatActivity {
             if (!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
                 btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
             } else { // 작성자라면
-                btn_join.setText("배달 완료");
+                btn_join.setText("배달 완료 푸시알림");
                 host_comment.setVisibility(View.VISIBLE); // 호스트 코멘트창 open
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override

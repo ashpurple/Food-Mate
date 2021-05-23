@@ -138,7 +138,7 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/outline_sms_24" />
 
-            <TextView
+            <EditText
                 android:id="@+id/host_comment"
                 android:layout_width="236dp"
                 android:layout_height="wrap_content"
@@ -148,7 +148,8 @@
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:visibility="invisible"
-                android:textColor="@color/black"/>
+                android:hint="참여자들에게 배달장소를 알려주세요"
+                />
 
             <Button
                 android:id="@+id/btn_join"
