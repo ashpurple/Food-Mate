@@ -252,7 +252,7 @@
                 android:layout_alignBottom="@id/btn_fastfood"
                 android:layout_marginStart="7dp"
                 android:layout_marginEnd="7dp"
-                android:layout_marginBottom="48dp"
+                android:layout_marginBottom="28dp"
                 android:layout_toRightOf="@id/blank"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
