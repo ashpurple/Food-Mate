@@ -129,16 +129,6 @@
             android:layout_marginBottom="30dp"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/comment"
-                android:layout_width="66dp"
-                android:layout_height="73dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/outline_sms_24" />
-
             <EditText
                 android:id="@+id/host_comment"
                 android:layout_width="236dp"
