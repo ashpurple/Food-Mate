@@ -14,7 +14,7 @@
         android:padding="5dp"
         android:gravity="center"
         android:background="@color/main_orange"
-        android:text="분류" />
+        android:text="모집완료" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
