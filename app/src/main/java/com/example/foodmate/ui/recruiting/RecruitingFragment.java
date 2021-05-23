@@ -43,7 +43,7 @@ public class RecruitingFragment extends Fragment {
         root.findViewById(R.id.btn_schoolfood).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_Asian_European_food).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_fastfood).setOnClickListener(onClickListener);
-        root.findViewById(R.id.btn_chinese).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_Etc).setOnClickListener(onClickListener);
 
         return root;
 
