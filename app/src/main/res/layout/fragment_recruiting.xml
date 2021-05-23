@@ -122,7 +122,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
-                android:id="@+id/btn_chicken"
+                android:id="@+id/btn_Asianfood"
                 android:layout_width="124dp"
                 android:layout_height="109dp"
                 android:layout_marginLeft="49dp"
@@ -178,7 +178,7 @@
                 android:src="@drawable/food4_fastfood"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.459"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_chinese"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="28dp"
                 android:layout_toLeftOf="@id/blank"
                 android:text="햄버거/치킨"
                 android:textColor="@color/black"
@@ -195,7 +195,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.536"
+                app:layout_constraintHorizontal_bias="0.476"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
@@ -206,7 +206,7 @@
                 android:layout_marginBottom="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.84"
+                app:layout_constraintHorizontal_bias="0.801"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
@@ -225,7 +225,7 @@
                 android:src="@drawable/food5_chinesefood"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.135"
+                app:layout_constraintHorizontal_bias="0.092"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -234,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_chinese"
                 android:layout_marginLeft="14dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="28dp"
                 android:layout_toRightOf="@id/blank"
                 android:text="중식"
                 android:textColor="@color/black"
@@ -243,7 +243,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.152"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
+
 
             <ImageButton
                 android:id="@+id/btn_Etc"
@@ -261,16 +262,16 @@
                 android:src="@drawable/etc"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.916"
+                app:layout_constraintHorizontal_bias="0.898"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/txt_food6"
+                android:id="@+id/Etc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btn_chinese"
+               
                 android:layout_marginLeft="14dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="28dp"
                 android:layout_toRightOf="@id/blank"
                 android:text="기타"
                 android:textColor="@color/black"
@@ -278,7 +279,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.833"
+                app:layout_constraintHorizontal_bias="0.805"
                 app:layout_constraintStart_toStartOf="parent"
 
                 />

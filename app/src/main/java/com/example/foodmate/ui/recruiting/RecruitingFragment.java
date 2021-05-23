@@ -40,7 +40,7 @@ public class RecruitingFragment extends Fragment {
         root.findViewById(R.id.btn_addNew).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_korean).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_schoolfood).setOnClickListener(onClickListener);
-        root.findViewById(R.id.btn_chicken).setOnClickListener(onClickListener);
+        root.findViewById(R.id.btn_Asianfood).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_fastfood).setOnClickListener(onClickListener);
         root.findViewById(R.id.btn_chinese).setOnClickListener(onClickListener);
 
@@ -66,7 +66,7 @@ public class RecruitingFragment extends Fragment {
                     category="분식";
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
-                case R.id.btn_chicken:
+                case R.id.btn_Asianfood:
                     category="치킨";
                     startListActivity(ListActivity.class,flag,status,category);
                     break;
