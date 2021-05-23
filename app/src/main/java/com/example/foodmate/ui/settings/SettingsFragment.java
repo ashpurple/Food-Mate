@@ -64,7 +64,7 @@ public class SettingsFragment extends Fragment {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         String txt_nickname = document.getData().get("nickname").toString();
-                        nickname.setText("Hello " + txt_nickname + "!");
+                        nickname.setText("반갑습니다 " + txt_nickname + "님!");
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
