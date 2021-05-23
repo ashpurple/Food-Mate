@@ -2,14 +2,11 @@ package com.example.foodmate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG="SignUpActivity";
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +21,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth=FirebaseAuth.getInstance();
-
-
         findViewById(R.id.btn_login).setOnClickListener(onClickListener);
         findViewById(R.id.text_signup).setOnClickListener(onClickListener);
         findViewById(R.id.text_forgotPW).setOnClickListener(onClickListener);
@@ -49,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
 
         switch(v.getId()){
             case R.id.btn_login:
-                Log.e("login","로그인 클릭");
                 login();
                 break;
             case R.id.text_signup:
@@ -65,24 +58,21 @@ public class LoginActivity extends AppCompatActivity {
         String email=((EditText)findViewById(R.id.edit_email)).getText().toString();
         String password=((EditText)findViewById(R.id.edit_password)).getText().toString();
 
-
         if(email.length()>0 && password.length()>0) {
-            /* 로그인 */
+            /* Login */
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                if(mAuth.getCurrentUser().isEmailVerified()){
+                                if(mAuth.getCurrentUser().isEmailVerified()){ // check verification
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startToast("로그인에 성공하였습니다.");
                                     startMainActivity();
                                 }
                                 else{
-                                    startToast("인증되지 않은 이메일입니다.\n 인증메일을 확인해주세요");
+                                    startToast("인증되지 않은 이메일입니다.\n 메일을 확인해주세요");
                                 }
-
-
                             } else {
                                 if (task.getException() != null) {
                                     startToast(task.getException().toString());
@@ -103,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void startMainActivity(){
         Intent intent = new Intent(this,MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //로그인 상태에서 뒤로가기 했을 때 로그인 창 안나오게
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // if login status, block back pressed
         startActivity(intent);
     }
 

@@ -10,10 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
-
 import com.example.foodmate.ListActivity;
 import com.example.foodmate.R;
-import com.example.foodmate.ui.recruited.RecruitedFragment;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
