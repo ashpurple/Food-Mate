@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="63dp"
-            android:layout_marginEnd="53dp"
+            android:layout_marginEnd="44dp"
             android:text="Food Mate"
             android:textColor="@color/main_orange"
             android:textSize="60dp"
