@@ -3,6 +3,7 @@ package com.example.foodmate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,8 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         mContext = this;
 
+
+
     }
 
     @Override
@@ -50,6 +55,8 @@ public class ListActivity extends AppCompatActivity {
         super.onBackPressed();
         startMyActivity(MainActivity.class);
     }
+
+
 
     private void showData(int flag, String[] result) {
 
@@ -115,6 +122,8 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         mContext = this;
 
+
+
         //init firestore
         db = FirebaseFirestore.getInstance();
 
@@ -128,12 +137,13 @@ public class ListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
-
+        TextView txt_category = findViewById(R.id.txt_category);
         //show data in recyclerview
         int flag=intent.getExtras().getInt("Flag");
         if (flag==0){ // recruiting
             String status=intent.getExtras().getString("Status");
             String category=intent.getExtras().getString("Category");
+            txt_category.setText(category);
             String[] result={status,category};
             showData(flag,result);
         }
@@ -147,6 +157,8 @@ public class ListActivity extends AppCompatActivity {
             String[] result={status};
             showData(flag,result);
         }
+
+
 
     }
 
