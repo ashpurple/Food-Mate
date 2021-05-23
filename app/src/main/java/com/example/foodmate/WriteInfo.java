@@ -2,9 +2,7 @@ package com.example.foodmate;
 
 
 import com.google.firebase.Timestamp;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class WriteInfo {
@@ -16,10 +14,9 @@ public class WriteInfo {
     private String selectedCategory;
     private Integer numOfRecruits;
     private Timestamp createdAt;
-    private String status; // 3개의 상태 중 하나 (recruiting/recruited/delivered)
+    private String status; // (recruiting / recruited / delivered)
     private Integer curRecruits;
     private ArrayList participants;
-
 
 
     public WriteInfo(String posts_id, String nickname, String title, String contents, String publisher,
@@ -38,8 +35,6 @@ public class WriteInfo {
         this.participants = participants;
 
     }
-
-
 
 
     public String getNickname(){ return this.nickname;}

@@ -6,24 +6,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.foodmate.ListActivity;
 import com.example.foodmate.LoginActivity;
 import com.example.foodmate.R;
-import com.example.foodmate.ui.recruiting.RecruitingViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,12 +30,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import static android.content.ContentValues.TAG;
 
 public class SettingsFragment extends Fragment {
-
     private SettingsViewModel settingsViewModel;
 
+    //firestore instance
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
     DocumentReference docRef = db.collection("Users").document(users.getUid());
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +51,10 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        Button btn_logout = (Button) root.findViewById(R.id.btn_logout);
+        Button btn_history = (Button) root.findViewById(R.id.btn_history);
+
+        // Get nickname from the firestore
         TextView nickname = root.findViewById(R.id.user_nickname);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -74,8 +74,6 @@ public class SettingsFragment extends Fragment {
         });
 
 
-        Button btn_logout = (Button) root.findViewById(R.id.btn_logout);
-        Button btn_history = (Button) root.findViewById(R.id.btn_history);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +83,7 @@ public class SettingsFragment extends Fragment {
                 startMyActivity(LoginActivity.class);
             }
         });
+
         btn_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

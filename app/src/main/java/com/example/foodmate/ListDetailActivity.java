@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +27,6 @@ import static android.content.ContentValues.TAG;
 public class ListDetailActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    MainActivity mainActivity;
     ArrayList<String> participants;
     String posts_id;
     int int_numOfRecruits, int_curRecruits;
@@ -46,13 +45,12 @@ public class ListDetailActivity extends AppCompatActivity {
         TextView nickname = (TextView) findViewById(R.id.nickname);
         TextView category = (TextView) findViewById(R.id.category);
         TextView created_at = (TextView) findViewById(R.id.created_At);
-        ImageButton user_menu = (ImageButton) findViewById(R.id.user_menu);
         TextView contents = (TextView) findViewById(R.id.contents);
-        ImageButton comment = (ImageButton) findViewById(R.id.comment);
-        status = (TextView) findViewById(R.id.status);
-        peopleNum = (TextView) findViewById(R.id.peopleNum);
         Button btn_join = findViewById(R.id.btn_join);
         EditText host_comment = findViewById(R.id.host_comment);
+        status = (TextView) findViewById(R.id.status);
+        peopleNum = (TextView) findViewById(R.id.peopleNum);
+
 
         String txt_title = intent.getExtras().getString("title");
         String txt_nickname = intent.getExtras().getString("nickname");
@@ -68,7 +66,7 @@ public class ListDetailActivity extends AppCompatActivity {
 
         DocumentReference postRef = db.collection("Posts").document(posts_id);
 
-        //위에서 받아온 내용 각각의 textview에 setText
+
         title.setText(txt_title);
         nickname.setText(txt_nickname);
         category.setText(txt_selectedCategory);
@@ -77,41 +75,38 @@ public class ListDetailActivity extends AppCompatActivity {
         status.setText(txt_status);
         peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
-        System.out.println("txt_publisher = " + txt_publisher);
-        System.out.println("user.getUid = " + user.getUid());
 
-        if (txt_status.equals("recruiting")) { // 상태가 모집중 이라면
-            //participants 리스트에 있으면 joined 를 true로 바꾸기
+
+        if (txt_status.equals("recruiting")) {
+            // if the user is in the participants list, change isJoin as true
             if (participants.contains(user.getUid())) {
                 isJoined = true;
             }
 
 
-            //참여하기 버튼 클릭
             btn_join = findViewById(R.id.btn_join);
             btn_join.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (txt_publisher != user.getUid()) {
-                        joinIn(user.getUid()); //참여자의 uid
+                        joinIn(user.getUid()); // participants uid
                     } else {
                         startToast("내가 작성한 글입니다!");
                     }
-
                 }
             });
-        } else if (txt_status.equals("recruited")) { // 상태가 모집완료라면
-            if (!txt_publisher.equals(user.getUid())) { // 작성자가 아니라면
-                btn_join.setVisibility(View.INVISIBLE); // 버튼 숨기기
-            } else { // 작성자라면
+        } else if (txt_status.equals("recruited")) {
+            if (!txt_publisher.equals(user.getUid())) { // if the user is NOT a host user
+                btn_join.setVisibility(View.INVISIBLE); // hide the button
+            } else { // if the user IS a host user
                 btn_join.setText("배달 완료");
-                host_comment.setVisibility(View.VISIBLE); // 호스트 코멘트창 open
+                host_comment.setVisibility(View.VISIBLE); // Open the host comments (EditText)
                 btn_join.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String hostComment=host_comment.getText().toString();
-                        postRef.update("status", "delivered");//파이어스토어에서 status 업데이트
-                        // 푸시알림
+                        postRef.update("status", "delivered");//update the firestore status
+                        // push notification
                         String msgTitle = "'" + txt_title + "' 게시물 배달 완료 알림";
                         String msgContent = hostComment;
                         SendMessage sendMessage = new SendMessage(participants, msgTitle, msgContent);
@@ -127,7 +122,7 @@ public class ListDetailActivity extends AppCompatActivity {
     }
 
     private void joinIn(String uid) {
-        // 현재 게시글의 id : posts_id
+        // current post's id : posts_id
         DocumentReference postRef = db.collection("Posts").document(posts_id);
         postRef = db.collection("Posts").document(posts_id);
 
@@ -138,21 +133,23 @@ public class ListDetailActivity extends AppCompatActivity {
             if (isJoined) {
                 startToast("이미 참여한 글입니다.");
             } else {
-                postRef.update("participants", FieldValue.arrayUnion(uid));//파이어스토어 participants에 참여자 uid 추가
+                // add current participants uid to the firestore reference
+                postRef.update("participants", FieldValue.arrayUnion(uid));
                 startToast("참여 완료되었습니다!");
                 isJoined = true;
                 participants = intent.getExtras().getStringArrayList("participants");
-                participants.add(uid); // 참여자에 추가
+                participants.add(uid); // add participants uid to arraylist
 
 
-                postRef.update("curRecruits", FieldValue.increment(1)); //파이어스토어에서 1 추가
-                ++int_curRecruits; //내부에서 1 추가
+                postRef.update("curRecruits", FieldValue.increment(1)); // increase curRecruits in firestore
+                ++int_curRecruits; // increase curRecruits in local
                 peopleNum.setText(int_curRecruits + "/" + int_numOfRecruits);
 
                 if (int_numOfRecruits == int_curRecruits) {
-                    postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
-                    status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
-                    // 모집완료 알림
+                    postRef.update("status", "recruited");// update firestore status
+                    status.setText("recruited");
+
+                    // notification all participants recruited
                     String title = intent.getExtras().getString("title");
                     int number = intent.getExtras().getInt("numOfRecruits");
                     String msgTitle = "'" + title + "' 게시물 모집완료 알림";
@@ -164,8 +161,8 @@ public class ListDetailActivity extends AppCompatActivity {
 
             }
         } else {
-            postRef.update("status", "recruited");//파이어스토어에서 status 업데이트
-            status.setText("recruited"); //일단 숫자 같아지면 텍스트를 바꿈
+            postRef.update("status", "recruited");// update firestore status
+            status.setText("recruited");
             startToast("모집이 완료된 글입니다.");
         }
 

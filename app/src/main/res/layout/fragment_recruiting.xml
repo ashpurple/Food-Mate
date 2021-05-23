@@ -122,7 +122,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
-                android:id="@+id/btn_Asianfood"
+                android:id="@+id/btn_Asian_European_food"
                 android:layout_width="124dp"
                 android:layout_height="109dp"
                 android:layout_marginLeft="49dp"

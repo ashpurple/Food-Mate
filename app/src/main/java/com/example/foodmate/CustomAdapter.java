@@ -20,7 +20,6 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     List<WriteInfo> writeInfoList;
 
 
-
     public CustomAdapter(ListActivity listActivity, List<WriteInfo> writeInfoList) {
         this.listActivity = listActivity;
         this.writeInfoList = writeInfoList;
@@ -35,13 +34,12 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 .inflate(R.layout.model_layout, viewGroup,false);
 
         ViewHolder viewHolder = new ViewHolder(itemView);
-        //handle item clicks here
 
+
+        // item clicked
         viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //this will be called when user click item
-
 
                 Intent intent = new Intent(view.getContext(),ListDetailActivity.class);
                 intent.putExtra("nickname",writeInfoList.get(position).getNickname());
@@ -55,18 +53,16 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 intent.putExtra("created_at",getTime(writeInfoList.get(position).getCreatedAt()));
                 intent.putExtra("participants",writeInfoList.get(position).getParticipants());
                 intent.putExtra("posts_id", writeInfoList.get(position).getPosts_id());
-                System.out.println("adapter 에서의 posts id: "+ writeInfoList.get(position).getPosts_id());
 
                 listActivity.startActivity(intent);
-
 
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
-                //this will be called when user long click item
 
             }
+
         });
 
 
@@ -75,12 +71,11 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        //bind views /set data
+        //bind views
         viewHolder.vTitle.setText(writeInfoList.get(i).getTitle());
         viewHolder.vContents.setText(writeInfoList.get(i).getContents());
         viewHolder.vNickname.setText(writeInfoList.get(i).getNickname());
-       viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
-
+        viewHolder.vUploadTime.setText(getTime(writeInfoList.get(i).getCreatedAt()));
 
     }
 
@@ -90,17 +85,14 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
 
-    //timestamp를 getExtra로 불러올수없음. 전달하기전에 미리 형변환.
+    // getExtra cannot call the type timestamp
+    // cast the type timestamp -> String
     static String getTime(Timestamp time) {
-        Date date_createdAt = time.toDate();//Date형식으로 변경
+        Date date_createdAt = time.toDate();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 HH시 mm분 ss초");
-        String txt_createdAt = formatter.format(date_createdAt).toString();
+        String txt_createdAt = formatter.format(date_createdAt);
         return txt_createdAt;
     }
 
-
-    private void startToast(String msg){
-        Toast.makeText(listActivity,msg,Toast.LENGTH_SHORT).show();
-    }
 
 }

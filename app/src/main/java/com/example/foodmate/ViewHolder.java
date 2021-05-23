@@ -11,7 +11,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     TextView vTitle, vContents, vNickname, vUploadTime;
     View mView;
 
-    public ViewHolder(@NonNull View itemView){
+    public ViewHolder(@NonNull View itemView) {
         super(itemView);
 
         mView = itemView;
@@ -21,17 +21,14 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 mClickListener.onItemClick(v, getAdapterPosition());
-
-                Intent intent = new Intent(itemView.getContext(),ListDetailActivity.class);
-
+                Intent intent = new Intent(itemView.getContext(), ListDetailActivity.class);
             }
         });
 
         //item long click listener
-        itemView.setOnLongClickListener(new View.OnLongClickListener(){
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-
                 mClickListener.onItemLongClick(v, getAdapterPosition());
                 return false;
             }
@@ -44,16 +41,18 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         vNickname = itemView.findViewById(R.id.lNickname);
         vUploadTime = itemView.findViewById(R.id.lUploadTime);
     }
+
     private ViewHolder.ClickListener mClickListener;
 
     //interface for click listener
-    public interface ClickListener{
+    public interface ClickListener {
         void onItemClick(View view, int position);
+
         void onItemLongClick(View view, int position);
 
     }
 
-    public void setOnClickListener(ViewHolder.ClickListener clickListener){
+    public void setOnClickListener(ViewHolder.ClickListener clickListener) {
         mClickListener = clickListener;
     }
 
