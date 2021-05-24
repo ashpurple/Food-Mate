@@ -3,20 +3,18 @@ package com.example.foodmate;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.assertNotNull;
 
 public class JoinInTest {
-    private ListDetailActivity joinIn;
+    private ListDetailActivity join;
 
     @Before
     public void setUp() {
-        joinIn = new ListDetailActivity();
+        join = new ListDetailActivity();
     }
 
     @Test
     public void joinInTest() {
-        assertNotNull(joinIn);
+        assertNotNull(join);
     }
 }

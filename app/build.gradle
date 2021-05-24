@@ -22,15 +22,28 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug{
+            testCoverageEnabled = true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
+apply plugin: 'jacoco'
 
+jacoco {
+    toolVersion = '0.8.5'
+    reportsDir = file("${buildDir}/reports")
+}
 dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:27.0.0')
@@ -54,9 +67,10 @@ dependencies {
     testImplementation 'junit:junit:4.+'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     def fragment_version = "1.2.4"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
 }

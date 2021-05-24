@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class ListDetailActivity extends AppCompatActivity {
+
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<String> participants;
