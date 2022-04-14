@@ -1,2 +1,2 @@
 # Food-Mate
-Software engineering-designed Android applications
+배달음식 공유 어플리케이션
